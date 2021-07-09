@@ -1,0 +1,12 @@
+.modal {
+    @apply text-center;
+}
+
+.modal:after {
+    content: "";
+    @apply min-h-screen inline-block align-middle;
+}
+
+.modal-body {
+    @apply inline-block align-middle text-left;
+}

@@ -1,0 +1,47 @@
+.mx-datepicker {
+    @apply border border-transparent rounded-md;
+    width: 100% !important;
+}
+
+.mx-datepicker.invalid input {
+    @apply border-red-700 placeholder-red-700 text-red-700;
+}
+
+.mx-datepicker.invalid .mx-icon-calendar {
+    @apply text-red-700;
+}
+
+.mx-datepicker input {
+    @apply bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none border border-transparent text-gray-400 sm:text-sm;
+    height: auto;
+}
+
+.mx-time,
+.mx-datepicker-main {
+    @apply bg-gray-700 border-none border-0;
+}
+
+.mx-time-column,
+.mx-time-header {
+    @apply border-gray-600;
+}
+
+.mx-table-date .cell.not-current-month {
+    @apply text-gray-600;
+}
+
+.mx-calendar-content .cell.disabled {
+    @apply bg-transparent text-gray-600;
+}
+
+.mx-time-column .mx-time-item {
+    transition: background 0.3s ease-in-out;
+}
+
+.mx-time-column .mx-time-item.active {
+    @apply text-gray-900;
+}
+
+.mx-time-column .mx-time-item:hover {
+    @apply bg-gray-800;
+}

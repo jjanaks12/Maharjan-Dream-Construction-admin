@@ -1,0 +1,20 @@
+.toggle {
+    @apply select-none flex items-center;
+}
+
+.toggle input {
+    @apply absolute opacity-0 invisible;
+}
+
+.toggle input:checked ~ .toggle-knob::before {
+    @apply bg-green-500 translate-x-0;
+}
+
+.toggle-knob {
+    @apply bg-gray-900 w-10 h-4 inline-block rounded-lg relative;
+}
+
+.toggle-knob::before {
+    content: '';
+    @apply bg-gray-700 w-5 h-5 rounded-full absolute top-1/2 transform translate-x-full -translate-y-1/2 transition transition-colors;
+}
