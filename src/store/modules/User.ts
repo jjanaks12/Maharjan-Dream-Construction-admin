@@ -33,4 +33,18 @@ export default class User extends VuexModule {
                 .catch(() => { })
         })
     }
+
+    @Action
+    destory(id: string): Promise<boolean | iErrorMessage> {
+        return new Promise((resolve) => {
+
+            axios.delete('users/' + id)
+                .then(() => {
+
+                    this.context.dispatch('fetchUser', false)
+                    resolve(true)
+                })
+                .catch(() => { })
+        })
+    }
 }

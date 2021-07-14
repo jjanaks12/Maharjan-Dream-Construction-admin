@@ -15,10 +15,10 @@ import { iUserDetail } from '@/interfaces/auth'
 })
 export default class User extends Vue {
     private userList!: Array<iUserDetail>
-    private isMaster: boolean = true
+    private isMaster: boolean = false
 
     mounted() {
-        this.$store.dispatch('user/fetchUser')
+        this.$store.dispatch('user/fetchUser', this.isMaster)
     }
 
     @Watch('isMaster')
@@ -34,7 +34,7 @@ export default class User extends Vue {
                     <Toggle v-model={this.isMaster}>{this.isMaster ? 'Showing Admins' : 'Showing Users'}</Toggle>
                 </header>
                 <transition-group tag="div" name="fade-in" class="md:space-y-1">
-                    {this.userList.map((user: iUserDetail, index: number) => (<UserCard user={user} key={user.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
+                    {this.userList.map((user: iUserDetail, index: number) => (<UserCard isMaster={this.isMaster} user={user} key={index} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
                 </transition-group>
             </div>
         </div>)

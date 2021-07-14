@@ -8,6 +8,7 @@ export interface iLogin {
 export interface iUserDetail {
     name: string
     image: string
+    email_verified_at?: string
     [propName: string]: any
 }
 
