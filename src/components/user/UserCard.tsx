@@ -16,6 +16,10 @@ export default class UserCard extends Vue {
         super(prop)
     }
 
+    get hasDeleted(): boolean {
+        return Boolean(this.user.deleted_at)
+    }
+
     render(): VNode {
         return (<div class="lg:flex lg:items-center lg:justify-between bg-gray-900 rounded-lg">
             <div class="flex-grow lg:flex lg:items-center lg:justify-between p-3">
@@ -44,12 +48,12 @@ export default class UserCard extends Vue {
                     </svg>
                     <span>Deactivate</span>
                 </button> */}
-                    <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-800 hover:bg-red-900" onClick={this.toggleDelete}>
+                    {this.hasDeleted ? (<button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-800 hover:bg-red-900" onClick={this.toggleDelete}>
                         <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                         </svg>
                         <span>Delete</span>
-                    </button>
+                    </button>) : null}
                 </div>) : null}
             </div>
             {this.isDeleting ? (<div class="flex-grow-0 flex-shrink-0 h-full bg-black bg-opacity-30 w-40 flex flex-col p-4 items-center space-y-2 ml-3 rounded-md">
@@ -67,6 +71,12 @@ export default class UserCard extends Vue {
         event.preventDefault()
 
         this.$store.dispatch('user/destory', this.user.uuid)
+    }
+
+    restoreUser(event: MouseEvent): void {
+        event.preventDefault()
+
+        this.$store.dispatch('user/restore', this.user.uuid)
     }
 
     toggleDelete(event: MouseEvent): void {
