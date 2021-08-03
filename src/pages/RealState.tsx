@@ -1,25 +1,40 @@
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
-import PropertyCreate from '@/components/property/Create'
 import { iRealState } from '@/interfaces/app'
+import { iErrorMessage } from '@/interfaces/auth'
+import PropertyCreate from '@/components/property/Create'
 import PropertyCard from '@/components/property/Card'
 import Modal from '@/components/common/Modal'
 
 @Component({
     computed: {
         ...mapGetters({
-            propertyList: 'realstate/getPropertyList'
+            propertyList: 'realstate/getPropertyList',
+            lastPage: 'realstate/lastPage',
+            current: 'realstate/currentPage',
+        })
+    },
+    methods: {
+        ...mapActions({
+            fetchProperty: 'realstate/fetch',
+            nextPage: 'realstate/nextPage',
+            prevPage: 'realstate/prevPage'
         })
     }
 })
-export default class User extends Vue {
+export default class Realstate extends Vue {
     private propertyList!: Array<iRealState>
     private showForm: boolean = false
+    private fetchProperty!: () => Promise<boolean | iErrorMessage>
+    private current!: number
+    private lastPage!: number
+    private prevPage!: () => Promise<boolean>
+    private nextPage!: () => Promise<boolean>
 
     mounted() {
-        this.$store.dispatch('realstate/fetchProperty')
+        this.fetchProperty()
     }
 
     render(): VNode {
@@ -42,6 +57,10 @@ export default class User extends Vue {
                 <Modal v-model={this.showForm}>
                     <PropertyCreate onClose={() => { this.showForm = false }} />
                 </Modal>
+                <ul>
+                    {this.current > 1 ? (<li><a href="#" onClick={this.prev}>prev</a></li>) : null}
+                    {this.current < this.lastPage ? (<li><a href="#" onClick={this.next}>next</a></li>) : null}
+                </ul>
             </div>
         </div>)
     }
@@ -49,5 +68,15 @@ export default class User extends Vue {
     toggleCreateForm(event: MouseEvent): void {
         event.preventDefault()
         this.showForm = !this.showForm
+    }
+
+    next(event: MouseEvent): void {
+        event.preventDefault()
+        this.nextPage()
+    }
+
+    prev(event: MouseEvent): void {
+        event.preventDefault()
+        this.prevPage()
     }
 }

@@ -1,24 +1,51 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AxiosResponse } from "axios";
 
-import { iMaterial, iMaterialCategory } from '@/interfaces/app';
+import { iMaterial, iMaterialCategory, iMaterialResponse, RequestQuery } from '@/interfaces/app';
 import axios from '@/services/axios';
+
+const materialInit: iMaterial = {
+    name: '',
+    description: '',
+    material_category_id: '',
+    measurement_unit: '',
+    price: '',
+    quantity: ''
+}
 
 @Module
 export default class Material extends VuexModule {
-    private materialList: Array<iMaterial> = []
     private categoryList: Array<iMaterialCategory> = []
+    private materialList: iMaterialResponse = {
+        data: [],
+        current_page: 0,
+        last_page: 0,
+        per_page: 0,
+        total: 0
+    }
 
     get getMaterialList(): Array<iMaterial> {
-        return this.materialList
+        return this.materialList.data
     }
 
     get getCategoryList(): Array<iMaterialCategory> {
         return this.categoryList
     }
 
+    get totalMaterialCount(): number {
+        return this.materialList.total
+    }
+
+    get lastMaterialPage(): number {
+        return this.materialList.last_page
+    }
+
+    get currentMaterialPage(): number {
+        return this.materialList.current_page
+    }
+
     @Mutation
-    SET_MATERIAL_LIST(materialList: Array<iMaterial>): void {
+    SET_MATERIAL_LIST(materialList: iMaterialResponse): void {
         this.materialList = materialList
     }
 
@@ -28,10 +55,10 @@ export default class Material extends VuexModule {
     }
 
     @Action
-    fetch(): Promise<boolean> {
+    fetch(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('materials')
+            axios.get('materials', { ...data })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_MATERIAL_LIST', response.data)
                     resolve(true)
@@ -106,6 +133,39 @@ export default class Material extends VuexModule {
                     resolve(true)
                 })
                 .catch(() => { })
+        })
+    }
+
+    @Action
+    nextMaterialPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentMaterialPage < this.lastMaterialPage) {
+                console.log('a');
+                
+                this.context.dispatch('fetch', {
+                    params: {
+                        page: this.currentMaterialPage + 1
+                    }
+                })
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    prevMaterialPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentMaterialPage > 1)
+                this.context.dispatch('fetch', {
+                    params: {
+                        page: this.currentMaterialPage - 1
+                    }
+                })
+
+            resolve(true)
         })
     }
 }

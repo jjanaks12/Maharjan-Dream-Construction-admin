@@ -6,6 +6,14 @@ export interface iMenu {
     [propName: string]: any
 }
 
+export interface RequestParams {
+    [propName: string]: any
+}
+
+export interface RequestQuery {
+    params?: RequestParams
+}
+
 export interface iNotification {
     id: number
     detail: string
@@ -21,6 +29,15 @@ export interface iImage {
     [propName: string]: any
 }
 
+export interface iRealStateResponse {
+    data: Array<iRealState>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
+    [propName: string]: any
+}
+
 export interface iRealState {
     id?: number
     location: string
@@ -30,6 +47,15 @@ export interface iRealState {
     description: string
     created_at?: string
     images?: Array<iImage>
+    [propName: string]: any
+}
+
+export interface iMaterialResponse {
+    data: Array<iMaterial>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
     [propName: string]: any
 }
 
