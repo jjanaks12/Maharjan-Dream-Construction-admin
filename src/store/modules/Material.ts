@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AxiosResponse } from "axios";
 
-import { iMaterial, iMaterialCategory, iMaterialResponse, RequestQuery } from '@/interfaces/app';
+import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse, RequestQuery } from '@/interfaces/app';
 import axios from '@/services/axios';
 
 const materialInit: iMaterial = {
@@ -15,7 +15,13 @@ const materialInit: iMaterial = {
 
 @Module
 export default class Material extends VuexModule {
-    private categoryList: Array<iMaterialCategory> = []
+    private categoryList: iMaterialCategoryResponse = {
+        data: [],
+        current_page: 0,
+        last_page: 0,
+        per_page: 0,
+        total: 0
+    }
     private materialList: iMaterialResponse = {
         data: [],
         current_page: 0,
@@ -29,7 +35,7 @@ export default class Material extends VuexModule {
     }
 
     get getCategoryList(): Array<iMaterialCategory> {
-        return this.categoryList
+        return this.categoryList.data
     }
 
     get totalMaterialCount(): number {
@@ -50,7 +56,7 @@ export default class Material extends VuexModule {
     }
 
     @Mutation
-    SET_CATEGORY_LIST(categoryList: Array<iMaterialCategory>): void {
+    SET_CATEGORY_LIST(categoryList: iMaterialCategoryResponse): void {
         this.categoryList = categoryList
     }
 
@@ -58,7 +64,12 @@ export default class Material extends VuexModule {
     fetch(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('materials', { ...data })
+            axios.get('materials', {
+                params: {
+                    ...data,
+                    per_page: 10
+                }
+            })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_MATERIAL_LIST', response.data)
                     resolve(true)
@@ -142,11 +153,9 @@ export default class Material extends VuexModule {
 
             if (this.currentMaterialPage < this.lastMaterialPage) {
                 console.log('a');
-                
+
                 this.context.dispatch('fetch', {
-                    params: {
-                        page: this.currentMaterialPage + 1
-                    }
+                    page: this.currentMaterialPage + 1
                 })
             }
 

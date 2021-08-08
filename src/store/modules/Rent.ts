@@ -1,19 +1,25 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AxiosResponse } from "axios";
 
-import { iRent } from '@/interfaces/app';
+import { iRent, iRentResponse } from '@/interfaces/app';
 import axios from '@/services/axios';
 
 @Module
 export default class Rent extends VuexModule {
-    private rentList: Array<iRent> = []
+    private rentList: iRentResponse = {
+        data: [],
+        current_page: 0,
+        last_page: 0,
+        per_page: 0,
+        total: 0
+    }
 
     get getRentList(): Array<iRent> {
-        return this.rentList
+        return this.rentList.data
     }
 
     @Mutation
-    SET_RENT_LIST(rentList: Array<iRent>): void {
+    SET_RENT_LIST(rentList: iRentResponse): void {
         this.rentList = rentList
     }
 

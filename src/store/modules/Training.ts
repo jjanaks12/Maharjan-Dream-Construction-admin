@@ -1,16 +1,22 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AxiosResponse } from "axios";
 
-import { iTraining } from '@/interfaces/app';
+import { iTraining, iTrainingResponse } from '@/interfaces/app';
 import axios from '@/services/axios';
 import moment from "moment";
 
 @Module
 export default class Training extends VuexModule {
-    private trainingList: Array<iTraining> = []
+    private trainingList: iTrainingResponse = {
+        data: [],
+        current_page: 0,
+        last_page: 0,
+        per_page: 0,
+        total: 0
+    }
 
     get getTrainingList(): Array<iTraining> {
-        return this.trainingList
+        return this.trainingList.data
     }
 
     get today(): string {
@@ -18,7 +24,7 @@ export default class Training extends VuexModule {
     }
 
     @Mutation
-    SET_TRAINING_LIST(trainingList: Array<iTraining>): void {
+    SET_TRAINING_LIST(trainingList: iTrainingResponse): void {
         this.trainingList = trainingList
     }
 

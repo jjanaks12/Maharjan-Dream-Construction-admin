@@ -72,6 +72,15 @@ export interface iMaterial {
     [propName: string]: any
 }
 
+export interface iRentResponse {
+    data: Array<iRent>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
+    [propName: string]: any
+}
+
 export interface iRent {
     id?: number
     name: string
@@ -83,10 +92,28 @@ export interface iRent {
     [propName: string]: any
 }
 
+export interface iMaterialCategoryResponse {
+    data: Array<iMaterialCategory>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
+    [propName: string]: any
+}
+
 export interface iMaterialCategory {
     id?: number
     title: string
     description: string
+    [propName: string]: any
+}
+
+export interface iTrainingResponse {
+    data: Array<iTraining>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
     [propName: string]: any
 }
 

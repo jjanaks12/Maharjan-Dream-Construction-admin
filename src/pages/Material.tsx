@@ -78,14 +78,14 @@ export default class Material extends Vue {
                             {this.currentMaterialPage < this.lastMaterialPage ? (<li><a href="#" onClick={this.nextMaterial}>next</a></li>) : null}
                         </ul>
                     </div>
-                    {/* <div class="w-1/3 px-2">
+                    <div class="w-1/3 px-2">
                         <h3 class="text-xl font-bold capitalize sm:truncate">Categories</h3>
                         <div class="md:space-y-1 pt-3">
                             <transition-group tag="div" name="fade-in" class="md:space-y-1">
                                 {this.categoryList.map((category: iMaterialCategory, index: number) => (<MaterialCategoryCard category={category} key={category.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
                             </transition-group>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
                 <Modal v-model={this.showMaterialCategoryForm}>
                     <MaterialCategoryCreate onClose={() => { this.showMaterialCategoryForm = false }} />
