@@ -4,15 +4,6 @@ import { AxiosResponse } from "axios";
 import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse, RequestQuery } from '@/interfaces/app';
 import axios from '@/services/axios';
 
-const materialInit: iMaterial = {
-    name: '',
-    description: '',
-    material_category_id: '',
-    measurement_unit: '',
-    price: '',
-    quantity: ''
-}
-
 @Module
 export default class Material extends VuexModule {
     private categoryList: iMaterialCategoryResponse = {
@@ -50,6 +41,18 @@ export default class Material extends VuexModule {
         return this.materialList.current_page
     }
 
+    get currentCategoryPage(): number {
+        return this.categoryList.current_page
+    }
+
+    get totalCatergoryCount(): number {
+        return this.categoryList.total
+    }
+
+    get lastCategoryPage(): number {
+        return this.categoryList.last_page
+    }
+
     @Mutation
     SET_MATERIAL_LIST(materialList: iMaterialResponse): void {
         this.materialList = materialList
@@ -79,10 +82,15 @@ export default class Material extends VuexModule {
     }
 
     @Action
-    fetchCategory(): Promise<boolean> {
+    fetchCategory(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('materialCategories')
+            axios.get('materialCategories', {
+                params: {
+                    ...data,
+                    per_page: 10
+                }
+            })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_CATEGORY_LIST', response.data)
                     resolve(true)
@@ -152,7 +160,6 @@ export default class Material extends VuexModule {
         return new Promise((resolve) => {
 
             if (this.currentMaterialPage < this.lastMaterialPage) {
-                console.log('a');
 
                 this.context.dispatch('fetch', {
                     page: this.currentMaterialPage + 1
@@ -169,9 +176,61 @@ export default class Material extends VuexModule {
 
             if (this.currentMaterialPage > 1)
                 this.context.dispatch('fetch', {
-                    params: {
-                        page: this.currentMaterialPage - 1
-                    }
+                    page: this.currentMaterialPage - 1
+                })
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    materialGotoPage(pageno: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentMaterialPage >= 1)
+                this.context.dispatch('fetch', {
+                    page: pageno
+                })
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    nextCategoryPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentCategoryPage < this.lastCategoryPage) {
+
+                this.context.dispatch('fetchCategory', {
+                    page: this.currentCategoryPage + 1
+                })
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    prevCategoryPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentCategoryPage > 1)
+                this.context.dispatch('fetchCategory', {
+                    page: this.currentCategoryPage - 1
+                })
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    categoryGotoPage(pageno: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentCategoryPage >= 1)
+                this.context.dispatch('fetchCategory', {
+                    page: pageno
                 })
 
             resolve(true)

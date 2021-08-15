@@ -1,7 +1,7 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import { AxiosResponse } from "axios";
 
-import { iTraining, iTrainingResponse } from '@/interfaces/app';
+import { iTraining, iTrainingResponse, RequestQuery } from '@/interfaces/app';
 import axios from '@/services/axios';
 import moment from "moment";
 
@@ -23,16 +23,33 @@ export default class Training extends VuexModule {
         return moment().add(1, "day").format('YYYY-MM-DD')
     }
 
+    get total(): number {
+        return this.trainingList.total
+    }
+
+    get lastPage(): number {
+        return this.trainingList.last_page
+    }
+
+    get currentPage(): number {
+        return this.trainingList.current_page
+    }
+
     @Mutation
     SET_TRAINING_LIST(trainingList: iTrainingResponse): void {
         this.trainingList = trainingList
     }
 
     @Action
-    fetch(): Promise<boolean> {
+    fetch(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('trainings')
+            axios.get('trainings', {
+                params: {
+                    ...data,
+                    per_page: 10
+                }
+            })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_TRAINING_LIST', response.data)
                     resolve(true)
@@ -68,6 +85,47 @@ export default class Training extends VuexModule {
                     resolve(true)
                 })
                 .catch(() => { })
+        })
+    }
+
+    @Action
+    nextPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage < this.lastPage) {
+
+                this.context.dispatch('fetch', {
+                    page: this.currentPage + 1
+                })
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    prevPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage > 1)
+                this.context.dispatch('fetch', {
+                    page: this.currentPage - 1
+                })
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    gotoPage(pageno: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage >= 1)
+                this.context.dispatch('fetch', {
+                    page: pageno
+                })
+
+            resolve(true)
         })
     }
 }

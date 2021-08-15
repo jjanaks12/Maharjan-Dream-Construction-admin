@@ -3,6 +3,14 @@ import { newRouteConfig } from '@/interfaces/app'
 const routes: Array<newRouteConfig> = [{
   path: '/',
   name: 'home',
+  component: () => import('@/pages/Home'),
+  meta: {
+    layout: 'simple',
+    type: 'unauthorized'
+  }
+}, {
+  path: '/dashboard',
+  name: 'dashboard',
   component: () => import('@/pages/Dashboard'),
   meta: {
     layout: 'default',
@@ -87,6 +95,14 @@ const routes: Array<newRouteConfig> = [{
   meta: {
     layout: 'default',
     type: 'authorized'
+  }
+}, {
+  path: '/:slug',
+  name: 'single_page',
+  component: () => import('@/pages/SinglePage'),
+  meta: {
+    layout: 'simple',
+    type: 'unauthorized'
   }
 }, {
   path: '*',

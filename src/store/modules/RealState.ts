@@ -6,13 +6,7 @@ import { iRealState, iRealStateResponse, RequestQuery } from '@/interfaces/app'
 import { iErrorMessage } from '@/interfaces/auth'
 import axios from '@/services/axios'
 
-const propertyInit: iRealState = {
-    location: '',
-    rate: '',
-    unit: '',
-    excerpt: '',
-    description: '',
-}
+let params: { params: {} }
 
 @Module
 export default class RealState extends VuexModule {
@@ -95,12 +89,15 @@ export default class RealState extends VuexModule {
     nextPage(): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentPage < this.lastPage)
-                this.context.dispatch('fetch', {
+            if (this.currentPage < this.lastPage) {
+                params = {
                     params: {
+                        ...params.params,
                         page: this.currentPage + 1
                     }
-                })
+                }
+                this.context.dispatch('fetch', params)
+            }
 
             resolve(true)
         })
@@ -110,12 +107,50 @@ export default class RealState extends VuexModule {
     prevPage(): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentPage > 1)
-                this.context.dispatch('fetch', {
+            if (this.currentPage > 1) {
+                params = {
                     params: {
+                        ...params.params,
                         page: this.currentPage - 1
                     }
-                })
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    gotoPage(pageno: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage >= 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: pageno
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    search(searchtext: string): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage >= 1) {
+                params = {
+                    params: {
+                        search: searchtext
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
 
             resolve(true)
         })

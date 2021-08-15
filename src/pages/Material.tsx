@@ -1,50 +1,16 @@
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters } from 'vuex'
 
-import { iMaterial, iMaterialCategory } from '@/interfaces/app'
 import MaterialCreate from '@/components/material/Create'
-import MaterialCard from '@/components/material/Card'
 import MaterialCategoryCreate from '@/components/material/CreateCategory'
-import MaterialCategoryCard from '@/components/material/CategoryCard'
 import Modal from '@/components/common/Modal'
+import MaterialList from '@/components/material/List'
+import CategoryList from '@/components/material/CategoryList'
 
-@Component({
-    computed: {
-        ...mapGetters({
-            materialList: 'material/getMaterialList',
-            categoryList: 'material/getCategoryList',
-            lastMaterialPage: 'material/lastMaterialPage',
-            currentMaterialPage: 'material/currentMaterialPage',
-        })
-    },
-    methods: {
-        ...mapActions({
-            fetchCategory: 'material/fetchCategory',
-            fetch: 'material/fetch',
-            nextMaterialPage: 'material/nextMaterialPage',
-            prevMaterialPage: 'material/prevMaterialPage'
-        })
-    }
-})
+@Component
 export default class Material extends Vue {
     private showMaterialForm: boolean = false
     private showMaterialCategoryForm: boolean = false
-    private materialList!: Array<iMaterial>
-    private categoryList!: Array<iMaterialCategory>
-    private fetchCategory!: () => Promise<boolean>
-    private fetch!: () => Promise<boolean>
-    private currentMaterialPage!: number
-    private lastMaterialPage!: number
-    private nextMaterialPage!: () => Promise<boolean>
-    private prevMaterialPage!: () => Promise<boolean>
-
-    mounted() {
-        Promise.all([
-            this.fetchCategory(),
-            this.fetch()
-        ])
-    }
 
     render(): VNode {
         return (<div class="py-8">
@@ -67,25 +33,8 @@ export default class Material extends Vue {
                     </div>
                 </header>
                 <div class="flex flex-wrap -mx-2">
-                    <div class="w-2/3 px-2">
-                        <div class="md:space-y-1 pt-3">
-                            <transition-group tag="div" name="fade-in" class="md:space-y-1">
-                                {this.materialList.map((material: iMaterial, index: number) => (<MaterialCard material={material} key={material.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
-                            </transition-group>
-                        </div>
-                        <ul>
-                            {this.currentMaterialPage > 1 ? (<li><a href="#" onClick={this.prevMaterial}>prev</a></li>) : null}
-                            {this.currentMaterialPage < this.lastMaterialPage ? (<li><a href="#" onClick={this.nextMaterial}>next</a></li>) : null}
-                        </ul>
-                    </div>
-                    <div class="w-1/3 px-2">
-                        <h3 class="text-xl font-bold capitalize sm:truncate">Categories</h3>
-                        <div class="md:space-y-1 pt-3">
-                            <transition-group tag="div" name="fade-in" class="md:space-y-1">
-                                {this.categoryList.map((category: iMaterialCategory, index: number) => (<MaterialCategoryCard category={category} key={category.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
-                            </transition-group>
-                        </div>
-                    </div>
+                    <MaterialList />
+                    <CategoryList />
                 </div>
                 <Modal v-model={this.showMaterialCategoryForm}>
                     <MaterialCategoryCreate onClose={() => { this.showMaterialCategoryForm = false }} />
@@ -105,15 +54,5 @@ export default class Material extends Vue {
     toggleCreateMaterialCategoryForm(event: MouseEvent): void {
         event.preventDefault()
         this.showMaterialCategoryForm = !this.showMaterialCategoryForm
-    }
-
-    nextMaterial(event: MouseEvent): void {
-        event.preventDefault()
-        this.nextMaterialPage()
-    }
-
-    prevMaterial(event: MouseEvent): void {
-        event.preventDefault()
-        this.prevMaterialPage()
     }
 }

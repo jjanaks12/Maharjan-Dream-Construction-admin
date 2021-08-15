@@ -1,25 +1,47 @@
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import { iRent } from '@/interfaces/app'
 import RentCard from '@/components/rent/Card'
 import Modal from '@/components/common/Modal'
 import RentCreate from '@/components/rent/Create'
+import Paginate from '@/components/common/Paginate'
+import RentLoading from '@/components/rent/Loading'
 
 @Component({
     computed: {
         ...mapGetters({
-            rentList: 'rent/getRentList'
+            rentList: 'rent/getRentList',
+            currentPage: 'rent/currentPage',
+            lastPage: 'rent/lastPage'
+        })
+    },
+    methods: {
+        ...mapActions({
+            prevPage: 'rent/prevPage',
+            nextPage: 'rent/nextPage',
+            gotoPage: 'rent/gotoPage'
         })
     }
 })
 export default class Rent extends Vue {
     private rentList!: Array<iRent>
     private showForm: boolean = false
+    private isLoading: boolean = false
+
+    private currentPage!: number
+    private lastPage!: number
+    private nextPage!: () => Promise<boolean>
+    private prevPage!: () => Promise<boolean>
+    private gotoPage!: (pageno: number) => Promise<boolean>
 
     mounted() {
+        this.isLoading = true
         this.$store.dispatch('rent/fetch')
+            .finally(() => {
+                this.isLoading = false
+            })
     }
 
     /**
@@ -40,9 +62,11 @@ export default class Rent extends Vue {
                     </button>
                 </header>
                 <div class="md:space-y-1">
-                    <transition-group tag="div" name="fade-in" class="md:space-y-1">
+                    {!this.isLoading ? [<div class="md:space-y-1">
                         {this.rentList.map((rent: iRent, index: number) => (<RentCard rent={rent} key={rent.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
-                    </transition-group>
+                    </div>,
+                    <Paginate current={this.currentPage} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.gotoPage(pageno)} />
+                    ] : <RentLoading />}
                 </div>
             </div>
             <Modal v-model={this.showForm}>

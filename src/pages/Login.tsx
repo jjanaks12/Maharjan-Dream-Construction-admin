@@ -100,7 +100,7 @@ export default class Login extends FormComponent {
 
         this.login(this.formData)
           .then(() => {
-            this.$router.push({ name: 'home' })
+            this.$router.push({ name: 'dashboard' })
           })
           .finally(() => {
             this.isLoggingIn = false

@@ -5,7 +5,6 @@ import TextEditor from '@/components/common/TextEditor'
 
 import { VNode } from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
-// import Datepicker from 'vue2-datepicker'
 import { validate } from 'vee-validate'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
@@ -56,7 +55,7 @@ export default class TrainingCreate extends FormComponent {
                 price: this.detail.price,
                 duration: this.detail.duration,
                 duration_type: this.detail.duration_type,
-                start_date: this.detail.start_date,
+                start_date: moment(this.detail.start_date).local().format('YYYY-MM-DD[T]HH:mm'),
             }
         }
     }
@@ -90,9 +89,7 @@ export default class TrainingCreate extends FormComponent {
                         </div>
                         <div class="w-1/2 px-2">
                             <label for="start_date" class="block text-sm font-medium">Start Date</label>
-                            {this.today}
-                            {/* <Datepicker type="date" name="start_date" disabled-date={this.disabledDate} v-model={this.formData.start_date} class={{ 'invalid': this.errors.start_date.length > 0 }} /> */}
-                            <input type="date" name="start_date" id="start_date" class={{ 'bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm': true, 'border-red-700 placeholder-red-700 text-red-700': this.errors.start_date.length > 0 }} min={minDate} v-model={this.formData.start_date} />
+                            <input type="datetime-local" name="start_date" id="start_date" class={{ 'bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm': true, 'border-red-700 placeholder-red-700 text-red-700': this.errors.start_date.length > 0 }} min={minDate} v-model={this.formData.start_date} />
                         </div>
                     </div>
                     <div class="flex -mx-2">

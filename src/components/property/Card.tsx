@@ -2,9 +2,10 @@ import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { iRealState } from '@/interfaces/app'
-import PropertyCreate from '@/components/property/Create'
 import { formatDate } from '@/plugin/filter'
+import PropertyCreate from '@/components/property/Create'
 import Modal from '@/components/common/Modal'
+import PropertyService from './Service'
 
 @Component
 export default class PropertyCard extends Vue {
@@ -24,6 +25,7 @@ export default class PropertyCard extends Vue {
                     <strong class="text-2xl font-medium capitalize">{this.property.location}</strong>
                     <div class="html-content" domPropsInnerHTML={this.property.description} />
                     <time datetime={this.property.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.property.created_at)}</time>
+                    {this.property.detail ? <PropertyService service={this.property.detail} /> : null}
                 </div>
                 <div class="pl-3 text-right">
                     <div class="action text-sm space-x-3 mb-3">

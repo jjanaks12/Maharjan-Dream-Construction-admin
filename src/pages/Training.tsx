@@ -1,25 +1,47 @@
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 import { iTraining } from '@/interfaces/app'
 import Modal from '@/components/common/Modal'
 import TrainingCreate from '@/components/training/Create'
 import TrainingCard from '@/components/training/Card'
+import Paginate from '@/components/common/Paginate'
+import TrainingLoading from '@/components/training/Loading'
 
 @Component({
     computed: {
         ...mapGetters({
-            trainingList: 'training/getTrainingList'
+            trainingList: 'training/getTrainingList',
+            currentPage: 'training/currentPage',
+            lastPage: 'training/lastPage'
+        })
+    },
+    methods: {
+        ...mapActions({
+            prevPage: 'training/prevPage',
+            nextPage: 'training/nextPage',
+            gotoPage: 'training/gotoPage'
         })
     }
 })
 export default class Training extends Vue {
     private trainingList!: Array<iTraining>
     private showForm: boolean = false
+    private isLoading: boolean = false
+
+    private currentPage!: number
+    private lastPage!: number
+    private nextPage!: () => Promise<boolean>
+    private prevPage!: () => Promise<boolean>
+    private gotoPage!: (pageno: number) => Promise<boolean>
 
     mounted() {
+        this.isLoading = true
         this.$store.dispatch('training/fetch')
+            .finally(() => {
+                this.isLoading = false
+            })
     }
 
     /**
@@ -40,9 +62,10 @@ export default class Training extends Vue {
                     </button>
                 </header>
                 <div class="md:space-y-1">
-                    <transition-group tag="div" name="fade-in" class="md:space-y-1">
+                    {!this.isLoading ? [<div class="md:space-y-1">
                         {this.trainingList.map((training: iTraining, index: number) => (<TrainingCard training={training} key={training.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
-                    </transition-group>
+                    </div>,
+                    <Paginate current={this.currentPage} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.gotoPage(pageno)} />] : <TrainingLoading />}
                 </div>
             </div>
             <Modal v-model={this.showForm}>

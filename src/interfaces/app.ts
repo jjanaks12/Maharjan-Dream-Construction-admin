@@ -38,6 +38,9 @@ export interface iRealStateResponse {
     [propName: string]: any
 }
 
+export interface iService extends Record<string, number> {
+}
+
 export interface iRealState {
     id?: number
     location: string
@@ -47,6 +50,7 @@ export interface iRealState {
     description: string
     created_at?: string
     images?: Array<iImage>
+    detail?: iService
     [propName: string]: any
 }
 
