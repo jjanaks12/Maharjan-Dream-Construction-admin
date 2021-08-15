@@ -12,16 +12,7 @@ interface aService {
 @Component
 export default class ServiceForm extends FormComponent {
     private hasChanged: boolean = false
-    private detail: Array<aService> = [{
-        title: 'bedroom',
-        value: 0,
-    }, {
-        title: 'bathroom',
-        value: 0,
-    }, {
-        title: 'parking',
-        value: 0,
-    }]
+    private detail: Array<aService> = []
 
     constructor(prop: any) {
         super(prop)
@@ -100,11 +91,11 @@ export default class ServiceForm extends FormComponent {
         const details = this.detail.reduce((acc: iService, service: aService) => {
             return {
                 ...acc,
-                [service.title]: service.value
+                [service.title]: Number(service.value)
             }
         }, {})
 
-        this.$emit('update', [details])
+        this.$emit('update', details)
         this.hasChanged = false
     }
 }

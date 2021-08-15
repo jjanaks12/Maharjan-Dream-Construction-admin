@@ -25,6 +25,7 @@ export interface iNotification {
 export interface iImage {
     id?: number
     url: string,
+    image_url: string,
     file?: ArrayBuffer | null
     [propName: string]: any
 }

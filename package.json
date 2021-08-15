@@ -2,10 +2,6 @@
   "name": "MaharjanGroup",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "14.x",
-    "npm": "6.x"
-  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -19,6 +15,7 @@
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "moment": "^2.29.1",
+    "register-service-worker": "^1.7.1",
     "vee-validate": "^3.4.10",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -31,11 +28,13 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.2.2",
+    "@types/node": "^16.6.1",
     "@types/vue2-datepicker": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.13",
     "@vue/cli-plugin-router": "^4.5.13",
     "@vue/cli-plugin-typescript": "^4.5.13",
     "@vue/cli-plugin-vuex": "^4.5.13",
@@ -73,5 +72,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  }
 }

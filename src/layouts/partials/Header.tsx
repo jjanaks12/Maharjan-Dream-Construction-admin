@@ -21,7 +21,11 @@ export default class Header extends Vue {
     render(): VNode {
         return (<header id="header" class="relative bg-gray-900 py-6">
             <div class="container flex justify-between items-center px-2 mx-auto">
-                <router-link class="font-bold text-yellow-300" to={{ name: 'home' }}>Maharjan Construction</router-link>
+                <div class="logo w-28">
+                    <router-link class="font-bold text-yellow-300" to={{ name: 'home' }}>
+                        <img src="/img/logo.png" alt="Maharjan Construction" />
+                    </router-link>
+                </div>
                 <nav class="hidden md:flex">
                     <ul class="md:space-x-10 flex">
                         {menuList.map((menu: iMenu) => (<li>

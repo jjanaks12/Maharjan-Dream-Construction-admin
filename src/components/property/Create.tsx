@@ -13,6 +13,7 @@ export default class PropertyCreate extends FormComponent {
     private isSaving: boolean = false
     private maxSize: number = 10
     private imageList: Array<iImage> = []
+    private images: Array<ArrayBuffer> = []
     private formData: iRealState = {
         location: '',
         excerpt: '',
@@ -88,13 +89,21 @@ export default class PropertyCreate extends FormComponent {
                 <div class="grid grid-cols-4 gap-2">
                     <strong class="col-span-full">Property Images</strong>
                     {this.imageList.map((image: iImage, index: number) => (<div class="bg-gray-800 border max-h-40 border-gray-800 rounded-md p-1 relative">
-                        <img src={image.url ? image.url : image.file} class="w-full h-full object-contain" />
+                        <img src={image.image_url ? image.image_url : image.file} class="w-full h-full object-contain" />
                         <a href="#" class="text-red-900 hover:text-yellow-400 absolute top-0 right-0 transform  translate-x-1/2 -translate-y-1/2 transition transition-color" onClick={(event: MouseEvent) => this.removeImage(event, index)}>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                             </svg>
                         </a>
                     </div>))}
+                    {this.images.map((image: ArrayBuffer, index: number) => <div class="bg-gray-800 border max-h-40 border-gray-800 rounded-md p-1 relative">
+                        <img src={image} class="w-full h-full object-contain" />
+                        <a href="#" class="text-red-900 hover:text-yellow-400 absolute top-0 right-0 transform  translate-x-1/2 -translate-y-1/2 transition transition-color" onClick={(event: MouseEvent) => this.removeImages(event, index)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>)}
                     <label class="text-center mt-1 flex flex-col items-center px-6 pt-5 pb-6 border-2 border-gray-800 border-dashed rounded-md space-y-1">
                         <input name="file-upload" type="file" class="sr-only" onChange={this.fileHandler} accept="image/*" multiple />
                         <svg class="h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -157,7 +166,7 @@ export default class PropertyCreate extends FormComponent {
 
                 this.$store.dispatch('realstate/save', {
                     ...this.formData,
-                    images: this.imageList
+                    images: this.images
                 })
                     .then(() => {
                         this.$emit('close')
@@ -202,10 +211,11 @@ export default class PropertyCreate extends FormComponent {
             readers.forEach((fileReader: FileReader) => {
                 fileReader.onload = () => {
                     if (fileReader.result) {
-                        this.imageList.push({
-                            file: fileReader.result as ArrayBuffer,
-                            url: ''
-                        })
+                        this.images.push(fileReader.result as ArrayBuffer)
+                        // this.imageList.push({
+                        //     file: fileReader.result as ArrayBuffer,
+                        //     url: ''
+                        // })
                     }
                 }
             })
@@ -216,5 +226,11 @@ export default class PropertyCreate extends FormComponent {
         event.preventDefault()
 
         this.imageList.splice(index, 1)
+    }
+
+    removeImages(event: MouseEvent, index: number): void {
+        event.preventDefault()
+
+        this.images.splice(index, 1)
     }
 }

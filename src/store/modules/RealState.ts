@@ -63,7 +63,7 @@ export default class RealState extends VuexModule {
                 data: formData
             })
                 .then(() => {
-                    this.context.dispatch('fetchProperty')
+                    this.context.dispatch('fetch')
                     resolve(true)
                 }).catch((error: AxiosError) => {
                     reject(error.response?.data)
@@ -78,7 +78,7 @@ export default class RealState extends VuexModule {
             axios.delete('realStates/' + id)
                 .then(() => {
 
-                    this.context.dispatch('fetchProperty')
+                    this.context.dispatch('fetch')
                     resolve(true)
                 })
                 .catch(() => { })
@@ -146,7 +146,7 @@ export default class RealState extends VuexModule {
             if (this.currentPage >= 1) {
                 params = {
                     params: {
-                        search: searchtext
+                        location: searchtext
                     }
                 }
                 this.context.dispatch('fetch', params)
