@@ -1,8 +1,14 @@
-import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { AxiosResponse } from "axios";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators"
+import { AxiosResponse } from "axios"
 
-import { iRent, iRentResponse, RequestQuery } from '@/interfaces/app';
-import axios from '@/services/axios';
+import { iRent, iRentResponse, RequestQuery } from '@/interfaces/app'
+import axios from '@/services/axios'
+
+let params: { params: {} } = {
+    params: {
+        per_page: 10
+    }
+}
 
 @Module
 export default class Rent extends VuexModule {
@@ -39,12 +45,7 @@ export default class Rent extends VuexModule {
     fetch(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('rents', {
-                params: {
-                    ...data,
-                    per_page: 10
-                }
-            })
+            axios.get('rents', { ...data })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_RENT_LIST', response.data)
                     resolve(true)
@@ -88,10 +89,13 @@ export default class Rent extends VuexModule {
         return new Promise((resolve) => {
 
             if (this.currentPage < this.lastPage) {
-
-                this.context.dispatch('fetch', {
-                    page: this.currentPage + 1
-                })
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentPage + 1
+                    }
+                }
+                this.context.dispatch('fetch', params)
             }
 
             resolve(true)
@@ -102,10 +106,15 @@ export default class Rent extends VuexModule {
     prevPage(): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentPage > 1)
-                this.context.dispatch('fetch', {
-                    page: this.currentPage - 1
-                })
+            if (this.currentPage > 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentPage - 1
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
 
             resolve(true)
         })
@@ -115,10 +124,30 @@ export default class Rent extends VuexModule {
     gotoPage(pageno: number): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentPage >= 1)
-                this.context.dispatch('fetch', {
-                    page: pageno
-                })
+            if (this.currentPage >= 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: pageno
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    search(searchtext: string): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            params = {
+                params: {
+                    name: searchtext
+                }
+            }
+            this.context.dispatch('fetch', params)
 
             resolve(true)
         })
