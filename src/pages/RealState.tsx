@@ -22,7 +22,7 @@ let timer: any = null
     },
     methods: {
         ...mapActions({
-            fetchProperty: 'realstate/fetch',
+            fetch: 'realstate/fetch',
             nextPage: 'realstate/nextPage',
             prevPage: 'realstate/prevPage',
             goto: 'realstate/gotoPage',
@@ -34,7 +34,7 @@ export default class Realstate extends Vue {
     private isLoading: boolean = false
     private propertyList!: Array<iRealState>
     private showForm: boolean = false
-    private fetchProperty!: () => Promise<boolean | iErrorMessage>
+    private fetch!: () => Promise<boolean | iErrorMessage>
     private current!: number
     private lastPage!: number
     private prevPage!: () => Promise<boolean>
@@ -42,13 +42,12 @@ export default class Realstate extends Vue {
     private goto!: (pageno: number) => Promise<boolean>
 
     private search!: (searchText: string) => Promise<boolean>
-
     private searchText: string = ''
 
     mounted() {
         this.isLoading = true
 
-        this.fetchProperty()
+        this.fetch()
             .finally(() => {
                 this.isLoading = false
             })

@@ -1,8 +1,19 @@
-import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { AxiosResponse } from "axios";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators"
+import { AxiosResponse } from "axios"
 
-import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse, RequestQuery } from '@/interfaces/app';
-import axios from '@/services/axios';
+import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse, RequestQuery } from '@/interfaces/app'
+import axios from '@/services/axios'
+
+let categoryParams: { params: {} } = {
+    params: {
+        per_page: 10
+    }
+}
+let params: { params: {} } = {
+    params: {
+        per_page: 10
+    }
+}
 
 @Module
 export default class Material extends VuexModule {
@@ -67,12 +78,7 @@ export default class Material extends VuexModule {
     fetch(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('materials', {
-                params: {
-                    ...data,
-                    per_page: 10
-                }
-            })
+            axios.get('materials', { ...data })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_MATERIAL_LIST', response.data)
                     resolve(true)
@@ -85,12 +91,7 @@ export default class Material extends VuexModule {
     fetchCategory(data: RequestQuery): Promise<boolean> {
         return new Promise((resolve) => {
 
-            axios.get('materialCategories', {
-                params: {
-                    ...data,
-                    per_page: 10
-                }
-            })
+            axios.get('materialCategories', { ...data })
                 .then((response: AxiosResponse) => {
                     this.context.commit('SET_CATEGORY_LIST', response.data)
                     resolve(true)
@@ -160,10 +161,13 @@ export default class Material extends VuexModule {
         return new Promise((resolve) => {
 
             if (this.currentMaterialPage < this.lastMaterialPage) {
-
-                this.context.dispatch('fetch', {
-                    page: this.currentMaterialPage + 1
-                })
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentMaterialPage + 1
+                    }
+                }
+                this.context.dispatch('fetch', params)
             }
 
             resolve(true)
@@ -174,10 +178,17 @@ export default class Material extends VuexModule {
     prevMaterialPage(): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentMaterialPage > 1)
+            if (this.currentMaterialPage > 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentMaterialPage - 1
+                    }
+                }
                 this.context.dispatch('fetch', {
                     page: this.currentMaterialPage - 1
                 })
+            }
 
             resolve(true)
         })
@@ -187,10 +198,15 @@ export default class Material extends VuexModule {
     materialGotoPage(pageno: number): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentMaterialPage >= 1)
-                this.context.dispatch('fetch', {
-                    page: pageno
-                })
+            if (this.currentMaterialPage >= 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: pageno
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
 
             resolve(true)
         })
@@ -201,10 +217,13 @@ export default class Material extends VuexModule {
         return new Promise((resolve) => {
 
             if (this.currentCategoryPage < this.lastCategoryPage) {
-
-                this.context.dispatch('fetchCategory', {
-                    page: this.currentCategoryPage + 1
-                })
+                categoryParams = {
+                    params: {
+                        ...categoryParams.params,
+                        page: this.currentCategoryPage + 1
+                    }
+                }
+                this.context.dispatch('fetchCategory', categoryParams)
             }
 
             resolve(true)
@@ -215,10 +234,15 @@ export default class Material extends VuexModule {
     prevCategoryPage(): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentCategoryPage > 1)
-                this.context.dispatch('fetchCategory', {
-                    page: this.currentCategoryPage - 1
-                })
+            if (this.currentCategoryPage > 1) {
+                categoryParams = {
+                    params: {
+                        ...categoryParams.params,
+                        page: this.currentCategoryPage - 1
+                    }
+                }
+                this.context.dispatch('fetchCategory', categoryParams)
+            }
 
             resolve(true)
         })
@@ -228,12 +252,62 @@ export default class Material extends VuexModule {
     categoryGotoPage(pageno: number): Promise<boolean> {
         return new Promise((resolve) => {
 
-            if (this.currentCategoryPage >= 1)
-                this.context.dispatch('fetchCategory', {
-                    page: pageno
-                })
+            if (this.currentCategoryPage >= 1) {
+                categoryParams = {
+                    params: {
+                        ...categoryParams.params,
+                        page: pageno
+                    }
+                }
+                this.context.dispatch('fetchCategory', categoryParams)
+            }
 
             resolve(true)
         })
     }
+
+    @Action
+    search(searchtext: string): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentCategoryPage >= 1) {
+                params = {
+                    params: {
+                        name: searchtext
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    categorySearch(searchtext: string): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentCategoryPage >= 1) {
+                categoryParams = {
+                    params: {
+                        title: searchtext
+                    }
+                }
+                this.context.dispatch('fetchCategory', categoryParams)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    deleteImage(id: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            axios.delete(`materials/image/${id}`)
+            resolve(true)
+        })
+    }
+
+
 }

@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { VNode } from 'vue'
 import { validate } from 'vee-validate'
 import { Component, Prop } from 'vue-property-decorator'
@@ -14,6 +14,12 @@ import TextEditor from '../common/TextEditor'
         ...mapGetters({
             categoryList: 'material/getCategoryList'
         })
+    },
+    methods: {
+        ...mapActions({
+            save: 'material/save',
+            deleteImage: 'material/deleteImage'
+        })
     }
 })
 export default class MaterialCreate extends FormComponent {
@@ -22,6 +28,8 @@ export default class MaterialCreate extends FormComponent {
     private imageList: Array<iImage> = []
     private images: Array<ArrayBuffer> = []
     private categoryList!: Array<iMaterialCategory>
+    private save!: (formData: any) => Promise<boolean>
+    private deleteImage!: (id: number) => Promise<boolean>
     private formData: iMaterial = {
         name: '',
         excerpt: '',
@@ -109,7 +117,7 @@ export default class MaterialCreate extends FormComponent {
                         <strong class="col-span-full">Property Images</strong>
                         {this.imageList.map((image: iImage, index: number) => (<div class="bg-gray-800 border max-h-40 border-gray-800 rounded-md p-1 relative">
                             <img src={image.image_url ? image.image_url : image.file} class="w-full h-full object-contain" />
-                            <a href="#" class="text-red-900 hover:text-yellow-400 absolute top-0 right-0 transform  translate-x-1/2 -translate-y-1/2 transition transition-color" onClick={(event: MouseEvent) => this.removeImage(event, index)}>
+                            <a href="#" class="text-red-900 hover:text-yellow-400 absolute top-0 right-0 transform  translate-x-1/2 -translate-y-1/2 transition transition-color" onClick={(event: MouseEvent) => this.removeImage(event, index, image.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                 </svg>
@@ -189,7 +197,7 @@ export default class MaterialCreate extends FormComponent {
             if (!this.hasError) {
                 this.isSaving = true
 
-                this.$store.dispatch('material/save', {
+                this.save({
                     ...this.formData,
                     images: this.images
                 })
@@ -237,20 +245,19 @@ export default class MaterialCreate extends FormComponent {
                 fileReader.onload = () => {
                     if (fileReader.result) {
                         this.images.push(fileReader.result as ArrayBuffer)
-                        // this.imageList.push({
-                        //     file: fileReader.result as ArrayBuffer,
-                        //     url: ''
-                        // })
                     }
                 }
             })
         })
     }
 
-    removeImage(event: MouseEvent, index: number): void {
+    removeImage(event: MouseEvent, index: number, id: number): void {
         event.preventDefault()
 
-        this.imageList.splice(index, 1)
+        this.deleteImage(id)
+            .then(() => {
+                this.imageList.splice(index, 1)
+            })
     }
 
     removeImages(event: MouseEvent, index: number): void {

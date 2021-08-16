@@ -6,7 +6,11 @@ import { iRealState, iRealStateResponse, RequestQuery } from '@/interfaces/app'
 import { iErrorMessage } from '@/interfaces/auth'
 import axios from '@/services/axios'
 
-let params: { params: {} }
+let params: { params: {} } = {
+    params: {
+        per_page: 10
+    }
+}
 
 @Module
 export default class RealState extends VuexModule {
@@ -152,6 +156,15 @@ export default class RealState extends VuexModule {
                 this.context.dispatch('fetch', params)
             }
 
+            resolve(true)
+        })
+    }
+
+    @Action
+    deleteImage(id: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            axios.delete(`realStates/image/${id}`)
             resolve(true)
         })
     }

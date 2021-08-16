@@ -23,7 +23,7 @@ export interface iNotification {
 }
 
 export interface iImage {
-    id?: number
+    id: number
     url: string,
     image_url: string,
     file?: ArrayBuffer | null
