@@ -5,7 +5,6 @@ import store from '@/store'
 
 // plugins
 import '@/plugin/validation'
-import '@/plugin/directive/click-outside'
 
 // components
 import fallback from '@/layouts/Default'

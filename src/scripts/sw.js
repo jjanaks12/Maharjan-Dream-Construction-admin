@@ -1,5 +1,3 @@
-importScripts("/precache-manifest.c733afd08503c854f60bf1b587cb09c2.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-
 /**
  * Welcome to your Workbox-powered service worker!
  *
@@ -30,4 +28,3 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
