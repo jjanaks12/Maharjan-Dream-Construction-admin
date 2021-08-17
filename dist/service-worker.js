@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.86d45a41ec57c56e402d7edd66e0a38d.js"
+  "/precache-manifest.89bc3dedcb8424a57b18ae92d5b9446e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "MaharjanGroup"});

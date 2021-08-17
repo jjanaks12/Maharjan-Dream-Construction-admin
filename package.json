@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "node server.ts"
+    "start": "node server.js"
   },
   "dependencies": {
     "@tiptap/starter-kit": "^2.0.0-beta.81",
