@@ -1,5 +1,3 @@
-importScripts("/precache-manifest.41db43019cdf10be0559d04def3a4b36.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-
 /**
  * Welcome to your Workbox-powered service worker!
  *
@@ -15,7 +13,11 @@ importScripts("/precache-manifest.41db43019cdf10be0559d04def3a4b36.js", "https:/
 
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
-workbox.core.setCacheNameDetails({prefix: "MYC"});
+importScripts(
+  "/precache-manifest.86d45a41ec57c56e402d7edd66e0a38d.js"
+);
+
+workbox.core.setCacheNameDetails({prefix: "MaharjanGroup"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -30,4 +32,3 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-

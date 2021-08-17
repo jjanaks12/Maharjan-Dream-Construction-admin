@@ -1,5 +1,5 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
 import { iLogin, iUserDetail } from "@/interfaces/auth";
 import axios from '@/services/axios'

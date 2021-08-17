@@ -1,7 +1,6 @@
 export interface iLogin {
     email: string
     password: string
-    // rememberMe: boolean
     [propName: string]: any
 }
 
@@ -16,7 +15,7 @@ export interface userResponse {
 
 export interface iUserDetail {
     name: string
-    image: string
+    photo: string
     email_verified_at?: string
     [propName: string]: any
 }
