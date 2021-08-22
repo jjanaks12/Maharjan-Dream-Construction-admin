@@ -3,9 +3,10 @@ import { AxiosResponse } from "axios"
 import moment from "moment"
 
 import { iTraining, iTrainingResponse, RequestQuery } from '@/interfaces/app'
+import { iUserDetail } from '@/interfaces/auth'
 import axios from '@/services/axios'
 
-let params: { params: {} } = {
+let params: RequestQuery = {
     params: {
         per_page: 10
     }
@@ -13,6 +14,7 @@ let params: { params: {} } = {
 
 @Module
 export default class Training extends VuexModule {
+    private enrolledUsers: Array<iUserDetail> = []
     private trainingList: iTrainingResponse = {
         data: [],
         current_page: 0,
@@ -23,6 +25,10 @@ export default class Training extends VuexModule {
 
     get getTrainingList(): Array<iTraining> {
         return this.trainingList.data
+    }
+
+    get getEnrolledUsers(): Array<iUserDetail> {
+        return this.enrolledUsers
     }
 
     get today(): string {
@@ -44,6 +50,11 @@ export default class Training extends VuexModule {
     @Mutation
     SET_TRAINING_LIST(trainingList: iTrainingResponse): void {
         this.trainingList = trainingList
+    }
+
+    @Mutation
+    SET_ENROLLED_USERS(enrolledUsers: Array<iUserDetail>): void {
+        this.enrolledUsers = enrolledUsers
     }
 
     @Action
@@ -156,5 +167,11 @@ export default class Training extends VuexModule {
 
             resolve(true)
         })
+    }
+
+    @Action({ commit: 'SET_ENROLLED_USERS' })
+    async enrolled({ id }: iTraining) {
+        const { data } = await axios.get(`trainings/${id}/users`)
+        return data
     }
 }

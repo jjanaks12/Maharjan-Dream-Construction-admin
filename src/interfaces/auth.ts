@@ -15,8 +15,18 @@ export interface userResponse {
 
 export interface iUserDetail {
     name: string
-    photo: string
+    email: string
+    phone: string
+    address: string
+    password?: string
+    confirm_password?: string
+    photo?: string
+    token?: string
+    citizenship_front?: string | null
+    citizenship_back?: string | null
     email_verified_at?: string
+    created_at?: string
+    uuid?: string
     [propName: string]: any
 }
 

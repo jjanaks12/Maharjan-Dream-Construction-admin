@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 @Component
 export default class Modal extends Vue {
@@ -9,7 +9,12 @@ export default class Modal extends Vue {
 
     @Prop({ required: true }) value!: boolean
 
-    mounted() {
+    @Watch('value')
+    valueChanged() {
+        if (this.value)
+            document.body.style.overflow = 'hidden'
+        else
+            document.body.style.overflow = ''
     }
 
     render(): VNode | null {

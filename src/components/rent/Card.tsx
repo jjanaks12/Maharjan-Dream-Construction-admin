@@ -23,7 +23,7 @@ export default class RentCard extends Vue {
                 <div class="flex-grow">
                     <strong class="text-2xl font-medium capitalize">{this.rent.name}</strong>
                     <div class="html-content" domPropsInnerHTML={this.rent.excerpt} />
-                    <time datetime={this.rent.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.rent.created_at)}</time>
+                    {this.rent.created_at ? <time datetime={this.rent.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.rent.created_at)}</time> : null}
                 </div>
                 <div class="pl-3 text-right">
                     <div class="action text-sm space-x-3 mb-3">

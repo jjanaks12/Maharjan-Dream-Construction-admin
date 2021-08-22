@@ -3,8 +3,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { iRent } from '@/interfaces/app'
 import { formatDate } from '@/plugin/filter'
+
 import Modal from '@/components/common/Modal'
+import Tab from '@/components/common/tab/Index'
+import TabItem from '@/components/common/tab/Item'
+
 import TrainingCreate from '@/components/training/Create'
+import EnrolledList from '@/components/training/EnrolledList'
 
 @Component
 export default class TrainingCard extends Vue {
@@ -39,7 +44,14 @@ export default class TrainingCard extends Vue {
                 </div>) : null}
             </div>
             <Modal v-model={this.showModal}>
-                <TrainingCreate detail={this.training} onClose={() => { this.showModal = false }} />
+                <Tab>
+                    <TabItem title="Training Detail">
+                        <TrainingCreate detail={this.training} onClose={() => { this.showModal = false }} />
+                    </TabItem>
+                    <TabItem title="Enrolled">
+                        <EnrolledList training={this.training} />
+                    </TabItem>
+                </Tab>
             </Modal>
         </div>)
     }
