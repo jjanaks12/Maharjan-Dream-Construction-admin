@@ -89,7 +89,15 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
-  path: '/training',
+  path: '/resturant',
+  name: 'resturant',
+  component: () => import('@/pages/Resturant'),
+  meta: {
+    layout: 'default',
+    type: 'authorized'
+  }
+}, {
+  path: '/training/:id?',
   name: 'training',
   component: () => import('@/pages/Training'),
   meta: {

@@ -15,6 +15,9 @@ const menuList: Array<iMenu> = [{
 }, {
     name: "Training",
     path: "training"
+}, {
+    name: "Resturant",
+    path: "resturant"
 }/*, {
     name: "Notification",
     path: "notification"

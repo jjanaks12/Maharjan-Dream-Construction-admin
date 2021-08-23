@@ -102,7 +102,7 @@ export default class TrainingCreate extends FormComponent {
                     </div>
                 </div>
             </div>
-            <div class="mt-4 px-4 py-3 bg-gray-900 border-t border-gray-800 text-right sm:px-6">
+            <div class="mt-4 py-3 bg-gray-900 border-t border-gray-800 text-right">
                 <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 outline-none" disabled={this.isSaving}>
                     {this.isSaving ? (<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 relative animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />

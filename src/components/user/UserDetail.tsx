@@ -18,9 +18,13 @@ export default class UserDetail extends Vue {
 
     render(): VNode {
         return <div class="container bg-gray-700 text-gray-200 flex items-start p-5 rounded-md mx-auto">
-            <div class="w-96 mr-5 flex-shrink-0 flex-grow-0 rounded-lg overflow-hidden">
-                <img src={this.user.photo_url} alt={this.user.name} class="w-full h-auto" />
-            </div>
+            {this.user.photo
+                ? <div class="w-96 mr-5 flex-shrink-0 flex-grow-0 rounded-lg overflow-hidden">
+                    <img src={this.user.photo_url} alt={this.user.name} class="w-full h-auto" />
+                </div>
+                : <div class="bg-gray-400 text-white w-96 h-96 text-9xl flex justify-center items-center font-bold mr-4 rounded-full overflow-hidden">
+                    {this.getNameInitials(this.user.name)}
+                </div>}
             <div class="flex-grow">
                 <h2 class="text-xl mb-5">{this.user.name}</h2>
                 <dl class="text-sm">
@@ -37,10 +41,10 @@ export default class UserDetail extends Vue {
                     {this.hasDocument ? [
                         <dt class="text-gray-500 text-xs font-normal">Documents</dt>,
                         <dd class="flex space-x-2">
-                            {this.user.citizenship_front ? <div>
+                            {this.user.citizenship_front ? <div class="w-1/2">
                                 <img src={this.user.citizenship_front_url} alt={`${this.user.name}_citizenship_front`} class="w-full h-auto" />
                             </div> : null}
-                            {this.user.citizenship_back ? <div>
+                            {this.user.citizenship_back ? <div class="w-1/2">
                                 <img src={this.user.citizenship_back_url} alt={`${this.user.name}_citizenship_back`} class="w-full h-auto" />
                             </div> : null}
                         </dd>
@@ -48,5 +52,9 @@ export default class UserDetail extends Vue {
                 </dl>
             </div>
         </div>
+    }
+
+    getNameInitials(name: string): string {
+        return name.split(' ').map((word: string) => word.charAt(0)).slice(0, 2).join('')
     }
 }

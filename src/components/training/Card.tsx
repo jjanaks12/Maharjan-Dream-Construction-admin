@@ -1,7 +1,8 @@
 import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import moment from 'moment'
 
-import { iRent } from '@/interfaces/app'
+import { iTraining } from '@/interfaces/app'
 import { formatDate } from '@/plugin/filter'
 
 import Modal from '@/components/common/Modal'
@@ -16,19 +17,28 @@ export default class TrainingCard extends Vue {
     private showModal: boolean = false
     private isDeleting: boolean = false
 
-    @Prop({ required: true }) training!: iRent
+    @Prop({ required: true }) training!: iTraining
 
     constructor(prop: any) {
         super(prop)
+    }
+
+    get hasExpired(): boolean {
+        return moment(this.training.start_date).local().isBefore(moment())
     }
 
     render(): VNode {
         return (<div>
             <div class="bg-gray-900 rounded-lg flex justify-between p-3 text-gray-200">
                 <div class="flex-grow">
-                    <strong class="text-2xl font-medium capitalize">{this.training.title}</strong>
+                    <strong class="text-2xl font-medium capitalize">
+                        {this.training.title}
+                        {this.hasExpired
+                            ? <span class="text-red-500 text-sm font-normal ml-3">expired</span>
+                            : null}
+                    </strong>
                     <div class="html-content" domPropsInnerHTML={this.training.excerpt} />
-                    <time datetime={this.training.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.training.created_at)}</time>
+                    <time datetime={this.training.start_date} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.training.start_date)}</time>
                 </div>
                 <div class="pl-3 text-right">
                     <div class="action text-sm space-x-3 mb-3">
