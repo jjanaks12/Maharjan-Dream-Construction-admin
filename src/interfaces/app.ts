@@ -113,27 +113,6 @@ export interface iMaterialCategory {
     [propName: string]: any
 }
 
-export interface iTrainingResponse {
-    data: Array<iTraining>
-    current_page: number
-    per_page: number
-    last_page: number
-    total: number
-    [propName: string]: any
-}
-
-export interface iTraining {
-    id?: number
-    title: string
-    excerpt: string
-    description: string
-    duration: string
-    duration_type: string
-    price: string
-    start_date: string
-    [propName: string]: any
-}
-
 export type newRouteConfig = RouteConfig & {
     meta: {
         layout: string

@@ -1,3 +1,5 @@
+import { iTrainingUser } from '@/interfaces/training'
+
 export interface iLogin {
     email: string
     password: string
@@ -27,6 +29,7 @@ export interface iUserDetail {
     email_verified_at?: string
     created_at?: string
     uuid?: string
+    pivot?: iTrainingUser
     [propName: string]: any
 }
 

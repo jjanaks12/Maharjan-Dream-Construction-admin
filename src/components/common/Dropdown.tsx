@@ -7,6 +7,8 @@ export default class Dropdown extends Vue {
 
     render(): VNode {
         return (<div class="relative" v-click-outside={() => {
+            console.log('a');
+            
             this.isActive = false
         }}>
             <a href="#" onClick={(event: MouseEvent) => {

@@ -2,8 +2,10 @@ import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators"
 import { AxiosResponse } from "axios"
 import moment from "moment"
 
-import { iTraining, iTrainingResponse, RequestQuery } from '@/interfaces/app'
+import { RequestQuery } from '@/interfaces/app'
 import { iUserDetail } from '@/interfaces/auth'
+import { iTraining, iTrainingResponse } from "@/interfaces/training"
+
 import axios from '@/services/axios'
 
 let params: RequestQuery = {

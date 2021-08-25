@@ -2,7 +2,7 @@ import { VNode } from 'vue'
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapGetters } from 'vuex'
 
-import { iTraining } from '@/interfaces/app'
+import { iTraining } from '@/interfaces/training'
 import Modal from '@/components/common/Modal'
 import TrainingCreate from '@/components/training/Create'
 import TrainingCard from '@/components/training/Card'

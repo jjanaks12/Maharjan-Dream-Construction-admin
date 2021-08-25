@@ -1,4 +1,4 @@
-import { iTraining } from '@/interfaces/app'
+import { iTraining } from '@/interfaces/training'
 import FormComponent from '@/core/FormComponent'
 import SnackBar from '@/components/common/SnackBar'
 import TextEditor from '@/components/common/TextEditor'

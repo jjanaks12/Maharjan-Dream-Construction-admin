@@ -7,8 +7,19 @@ export default class Tab extends Vue {
     private currentTab: number = 0
     private tabs: Array<Vue> = []
 
-    mounted() {
+    async mounted() {
         this.tabs = this.$children
+
+        try {
+            await this.tabs.forEach((tab: Vue, index: number) => {
+                if (tab.$props.active) {
+                    this.currentTab = index
+                    throw ''
+                }
+            })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render(): VNode {

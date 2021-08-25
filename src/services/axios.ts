@@ -28,7 +28,7 @@ instance.interceptors.request.use((request: AxiosRequestConfig) => {
 // Response.interceptor
 instance.interceptors.response.use((response: AxiosResponse): AxiosResponse => response, (error: AxiosError): Promise<AxiosError> => {
 
-    if (error.response?.status == 403) {
+    if ([403, 401].includes(error.response?.status || 0)) {
         Store.dispatch('root/resetUser')
         router.push({ name: 'login' })
     }

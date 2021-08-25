@@ -10,6 +10,11 @@ export default class TabItem extends Vue {
     }
 
     @Prop({ default: 'Tab' }) title!: string
+    @Prop({ default: false }) active!: boolean
+
+    mounted() {
+        this.isActive = this.active
+    }
 
     render(): VNode {
         return <div>

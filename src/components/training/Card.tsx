@@ -1,8 +1,8 @@
 import { VNode } from 'vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import moment from 'moment'
 
-import { iTraining } from '@/interfaces/app'
+import { iTraining } from '@/interfaces/training'
 import { formatDate } from '@/plugin/filter'
 
 import Modal from '@/components/common/Modal'
@@ -25,6 +25,21 @@ export default class TrainingCard extends Vue {
 
     get hasExpired(): boolean {
         return moment(this.training.start_date).local().isBefore(moment())
+    }
+
+    @Watch('showModal')
+    showModalChanged() {
+        if (!this.showModal) {
+
+            this.$router.push({
+                name: this.$route.name as string
+            })
+        }
+    }
+
+    mounted() {
+        if (this.training.id && this.training.id.toString() === this.$route.params.id)
+            this.showModal = true
     }
 
     render(): VNode {
@@ -58,7 +73,7 @@ export default class TrainingCard extends Vue {
                     <TabItem title="Training Detail">
                         <TrainingCreate detail={this.training} onClose={() => { this.showModal = false }} />
                     </TabItem>
-                    <TabItem title="Enrolled">
+                    <TabItem title="Enrolled" active={true}>
                         <EnrolledList training={this.training} />
                     </TabItem>
                 </Tab>
@@ -70,6 +85,12 @@ export default class TrainingCard extends Vue {
         if (event)
             event.preventDefault()
 
+        this.$router.push({
+            name: this.$route.name as string,
+            params: {
+                id: this.training.id ? this.training.id.toString() : ''
+            }
+        })
         this.showModal = !this.showModal
     }
 
