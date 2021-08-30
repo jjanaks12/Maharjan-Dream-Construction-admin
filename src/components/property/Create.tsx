@@ -23,7 +23,7 @@ export default class PropertyCreate extends FormComponent {
     private imageList: Array<iImage> = []
     private images: Array<ArrayBuffer> = []
     private save!: (formData: any) => Promise<boolean>
-    private deleteImage!: (id: number) => Promise<boolean>
+    private deleteImage!: (id: string) => Promise<boolean>
     private formData: iRealState = {
         location: '',
         excerpt: '',
@@ -228,7 +228,7 @@ export default class PropertyCreate extends FormComponent {
         })
     }
 
-    removeImage(event: MouseEvent, index: number, id: number): void {
+    removeImage(event: MouseEvent, index: number, id: string): void {
         event.preventDefault()
 
         this.deleteImage(id)

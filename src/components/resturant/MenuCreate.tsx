@@ -32,7 +32,7 @@ export default class MenuCreate extends FormComponent {
     private images: Array<ArrayBuffer> = []
 
     private save!: (formData: any) => Promise<boolean>
-    private deleteImage!: (id: number) => Promise<boolean>
+    private deleteImage!: (id: string) => Promise<boolean>
 
     private menuList!: Array<iMenu>
 
@@ -249,7 +249,7 @@ export default class MenuCreate extends FormComponent {
         })
     }
 
-    removeImage(event: MouseEvent, index: number, id: number): void {
+    removeImage(event: MouseEvent, index: number, id: string): void {
         event.preventDefault()
 
         this.deleteImage(id)

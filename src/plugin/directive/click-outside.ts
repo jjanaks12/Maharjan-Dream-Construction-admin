@@ -22,7 +22,9 @@ Vue.directive('click-outside', {
         el.__vueClickOutside__ = handler
 
         // add Event Listeners
-        document.addEventListener('click', handler)
+        setTimeout(() => {
+            document.addEventListener('click', handler)
+        }, 100)
     },
 
     unbind: function (el: any, binding: any) {

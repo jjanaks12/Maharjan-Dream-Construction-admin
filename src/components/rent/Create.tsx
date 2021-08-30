@@ -52,7 +52,7 @@ export default class RentCreate extends FormComponent {
     render(): VNode {
         return (<form action="#" method="POST" class="rounded-md overflow-hidden" onSubmit={this.formSubmitted}>
             <div>
-                <div class="px-4 py-5 bg-gray-900 space-y-6 sm:p-6 text-gray-700">
+                <div class="space-y-6 text-gray-700">
                     <div>
                         <label for="name" class="block text-sm font-medium">Name</label>
                         <input type="text" name="name" id="name" class={{ 'bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm': true, 'border-red-700 placeholder-red-700 text-red-700': this.errors.name.length > 0 }} v-model={this.formData.name} />

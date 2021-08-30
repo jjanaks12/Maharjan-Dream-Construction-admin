@@ -23,7 +23,7 @@ export interface iNotification {
 }
 
 export interface iImage {
-    id: number
+    id: string
     url: string,
     image_url: string,
     file?: ArrayBuffer | null
@@ -43,7 +43,7 @@ export interface iService extends Record<string, number> {
 }
 
 export interface iRealState {
-    id?: number
+    id?: string
     location: string
     rate: string
     unit: string
@@ -65,7 +65,7 @@ export interface iMaterialResponse {
 }
 
 export interface iMaterial {
-    id?: number
+    id?: string
     name: string
     description: string
     quantity: string

@@ -73,7 +73,7 @@ export default class TrainingCard extends Vue {
                     <TabItem title="Training Detail">
                         <TrainingCreate detail={this.training} onClose={() => { this.showModal = false }} />
                     </TabItem>
-                    <TabItem title="Enrolled" active={true}>
+                    <TabItem title="Enrolled">
                         <EnrolledList training={this.training} />
                     </TabItem>
                 </Tab>

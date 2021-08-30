@@ -1,10 +1,15 @@
 import { VNode } from 'vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 import { iRent } from '@/interfaces/app'
 import { formatDate } from '@/plugin/filter'
+import { AvailabilityType } from '@/interfaces/availability'
+
 import Modal from '@/components/common/Modal'
 import RentCreate from '@/components/rent/Create'
+import Tab from '@/components/common/tab/Index'
+import TabItem from '@/components/common/tab/Item'
+import Appointment from '@/components/dashboard/Appointment'
 
 @Component
 export default class RentCard extends Vue {
@@ -15,6 +20,21 @@ export default class RentCard extends Vue {
 
     constructor(prop: any) {
         super(prop)
+    }
+
+    @Watch('showModal')
+    showModalChanged() {
+        if (!this.showModal) {
+
+            this.$router.push({
+                name: this.$route.name as string
+            })
+        }
+    }
+
+    mounted() {
+        if (this.rent.id && this.rent.id.toString() === this.$route.params.id)
+            this.showModal = true
     }
 
     render(): VNode {
@@ -39,7 +59,14 @@ export default class RentCard extends Vue {
                 </div>) : null}
             </div>
             <Modal v-model={this.showModal}>
-                <RentCreate detail={this.rent} onClose={() => { this.showModal = false }} />
+                <Tab>
+                    <TabItem title="Rent Detail">
+                        <RentCreate detail={this.rent} onClose={() => { this.showModal = false }} />
+                    </TabItem>
+                    <TabItem title="Appointments">
+                        <Appointment type={AvailabilityType.RENT} rent-id={this.rent.id} />
+                    </TabItem>
+                </Tab>
             </Modal>
         </div>)
     }
@@ -48,6 +75,12 @@ export default class RentCard extends Vue {
         if (event)
             event.preventDefault()
 
+        this.$router.push({
+            name: this.$route.name as string,
+            params: {
+                id: this.rent.id ? this.rent.id.toString() : ''
+            }
+        })
         this.showModal = !this.showModal
     }
 

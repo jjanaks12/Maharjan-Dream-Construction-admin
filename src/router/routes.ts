@@ -57,7 +57,7 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
-  path: '/realstate',
+  path: '/realstate/:id?',
   name: 'realstate',
   component: () => import('@/pages/RealState'),
   meta: {
@@ -81,7 +81,7 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
-  path: '/rent',
+  path: '/rent/:id?',
   name: 'rent',
   component: () => import('@/pages/Rent'),
   meta: {

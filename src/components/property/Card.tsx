@@ -1,11 +1,16 @@
 import { VNode } from 'vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 import { iRealState } from '@/interfaces/app'
 import { formatDate } from '@/plugin/filter'
-import PropertyCreate from '@/components/property/Create'
+
 import Modal from '@/components/common/Modal'
-import PropertyService from './Service'
+import Tab from '@/components/common/tab/Index'
+import TabItem from '@/components/common/tab/Item'
+
+import PropertyCreate from '@/components/property/Create'
+import PropertyService from '@/components/property/Service'
+import Appointment from '@/components/dashboard/Appointment'
 
 @Component
 export default class PropertyCard extends Vue {
@@ -18,11 +23,26 @@ export default class PropertyCard extends Vue {
         super(prop)
     }
 
+    @Watch('showModal')
+    showModalChanged() {
+        if (!this.showModal) {
+
+            this.$router.push({
+                name: this.$route.name as string
+            })
+        }
+    }
+
+    mounted() {
+        if (this.property.id && this.property.id.toString() === this.$route.params.id)
+            this.showModal = true
+    }
+
     render(): VNode {
         return (<div>
             <div class="bg-gray-900 rounded-lg flex justify-between p-3 text-gray-200">
                 <div class="flex-grow">
-                    <strong class="text-2xl font-medium capitalize">{this.property.location}</strong>
+                    <strong class="text-2xl font-medium capitalize block">{this.property.location}</strong>
                     <div class="html-content" domPropsInnerHTML={this.property.description} />
                     <time datetime={this.property.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.property.created_at)}</time>
                     {this.property.detail ? <PropertyService service={this.property.detail} /> : null}
@@ -41,7 +61,14 @@ export default class PropertyCard extends Vue {
                 </div>) : null}
             </div>
             <Modal v-model={this.showModal}>
-                <PropertyCreate detail={this.property} onClose={() => { this.showModal = false }} />
+                <Tab>
+                    <TabItem title="Realstate Detail">
+                        <PropertyCreate detail={this.property} onClose={() => { this.showModal = false }} />
+                    </TabItem>
+                    <TabItem title="Appointments">
+                        <Appointment realstate-id={this.property.id} />
+                    </TabItem>
+                </Tab>
             </Modal>
         </div>)
     }
@@ -50,6 +77,12 @@ export default class PropertyCard extends Vue {
         if (event)
             event.preventDefault()
 
+        this.$router.push({
+            name: this.$route.name as string,
+            params: {
+                id: this.property.id ? this.property.id.toString() : ''
+            }
+        })
         this.showModal = !this.showModal
     }
 
