@@ -17,9 +17,8 @@ export default class Login extends FormComponent {
   private login!: (formData: iLogin) => Promise<boolean>
   private isLoggingIn: boolean = false
   private formData: iLogin = {
-    email: 'admin@gmail.com',
-    password: 'password',
-    // rememberMe: false
+    email: '',
+    password: '',
   }
 
   constructor() {
