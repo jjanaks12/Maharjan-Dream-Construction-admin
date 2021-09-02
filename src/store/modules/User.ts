@@ -13,7 +13,7 @@ let params: RequestQuery = {
 
 @Module
 export default class User extends VuexModule {
-    private isAdmin: boolean = false
+    private isAdmin: boolean = true
     private userList: userResponse = {
         data: [],
         current_page: 0,

@@ -22,7 +22,7 @@ export default class UserCard extends Vue {
     }
 
     mounted() {
-        if (this.user.uuid === this.$route.params.uuid)
+        if (this.user.uuid && this.user.uuid === this.$route.params.uuid)
             this.showModal = true
     }
 

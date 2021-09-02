@@ -43,7 +43,7 @@ export default class PropertyCard extends Vue {
             <div class="bg-gray-900 rounded-lg flex justify-between p-3 text-gray-200">
                 <div class="flex-grow">
                     <strong class="text-2xl font-medium capitalize block">{this.property.location}</strong>
-                    <div class="html-content" domPropsInnerHTML={this.property.description} />
+                    <div class="html-content" domPropsInnerHTML={this.property.excerpt} />
                     <time datetime={this.property.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.property.created_at)}</time>
                     {this.property.detail ? <PropertyService service={this.property.detail} /> : null}
                 </div>
