@@ -41,7 +41,7 @@ const routes: Array<newRouteConfig> = [{
     type: 'unauthorized'
   }
 }, {
-  path: '/user/:uuid?',
+  path: '/user/:id?',
   name: 'user',
   component: () => import('@/pages/User'),
   meta: {

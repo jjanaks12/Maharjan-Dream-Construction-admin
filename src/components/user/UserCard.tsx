@@ -22,7 +22,7 @@ export default class UserCard extends Vue {
     }
 
     mounted() {
-        if (this.user.uuid && this.user.uuid === this.$route.params.uuid)
+        if (this.user.id && this.user.id === this.$route.params.id)
             this.showModal = true
     }
 
@@ -59,7 +59,7 @@ export default class UserCard extends Vue {
                         this.$router.replace({
                             name: this.$route.name as string,
                             params: {
-                                uuid: this.user.uuid as string
+                                id: this.user.id as string
                             }
                         })
                     }}>view</a>
@@ -91,13 +91,13 @@ export default class UserCard extends Vue {
     deleteUser(event: MouseEvent): void {
         event.preventDefault()
 
-        this.$store.dispatch('user/destory', this.user.uuid)
+        this.$store.dispatch('user/destory', this.user.id)
     }
 
     restoreUser(event: MouseEvent): void {
         event.preventDefault()
 
-        this.$store.dispatch('user/restore', this.user.uuid)
+        this.$store.dispatch('user/restore', this.user.id)
     }
 
     toggleDelete(event: MouseEvent): void {

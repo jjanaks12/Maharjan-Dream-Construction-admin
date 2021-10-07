@@ -1,7 +1,9 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators"
 import { AxiosResponse } from "axios"
 
-import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse, RequestQuery } from '@/interfaces/app'
+import { iMaterial, iMaterialCategory, iMaterialCategoryResponse, iMaterialResponse } from '@/interfaces/material'
+import { RequestQuery } from "@/interfaces/app"
+
 import axios from '@/services/axios'
 
 let categoryParams: { params: {} } = {

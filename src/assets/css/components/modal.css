@@ -10,3 +10,15 @@
 .modal-body {
     @apply inline-block align-middle text-left;
 }
+
+.modal-body dl {
+    @apply text-base mb-4;
+}
+
+.modal-body dt {
+    @apply text-xs font-bold;
+}
+
+.modal-body dd {
+    @apply mb-2;
+}

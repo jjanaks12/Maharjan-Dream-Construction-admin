@@ -12,15 +12,16 @@ export default class Paginate extends Vue {
     }
 
     get pages(): Array<number> {
-        const half: number = Math.round(this.max / 2)
-        let to: number = this.max
+        let length = this.max
 
-        if (this.current + half >= this.total)
-            to = this.total
-        else if (this.current > half)
-            to = this.current + half
+        if (length > this.total)
+            length = this.total;
 
-        return Array.from({ length: Math.min(this.max, this.total) }, (_, i) => (i + 1) + to - this.max)
+        let start = this.current - Math.floor(length / 2)
+        start = Math.max(start, 1)
+        start = Math.min(start, 1 + this.total - length)
+
+        return Array.from({ length: length }, (_, i) => start + i)
     }
 
     /** 

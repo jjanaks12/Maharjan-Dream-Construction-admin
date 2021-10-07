@@ -16,6 +16,7 @@ export interface userResponse {
 }
 
 export interface iUserDetail {
+    id?: string
     name: string
     email: string
     phone: string
@@ -28,7 +29,6 @@ export interface iUserDetail {
     citizenship_back?: string | null
     email_verified_at?: string
     created_at?: string
-    uuid?: string
     pivot?: iTrainingUser
     [propName: string]: any
 }

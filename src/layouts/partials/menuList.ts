@@ -21,9 +21,9 @@ const menuList: Array<iMenu> = [{
 }/*, {
     name: "Notification",
     path: "notification"
-}, {
+}*/, {
     name: "Settings",
     path: "setting"
-}*/]
+}]
 
 export default menuList

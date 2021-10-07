@@ -1,5 +1,5 @@
 import { VNode } from 'vue'
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 @Component
 export default class Toggle extends Vue {
@@ -12,6 +12,11 @@ export default class Toggle extends Vue {
     }
 
     mounted() {
+        this.checked = this.value
+    }
+
+    @Watch('value')
+    valueChanged() {
         this.checked = this.value
     }
 

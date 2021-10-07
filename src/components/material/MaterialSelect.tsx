@@ -1,7 +1,8 @@
-import { iMaterialCategory } from '@/interfaces/app'
 import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
+
+import { iMaterialCategory } from '@/interfaces/material'
 
 @Component({
     computed: {

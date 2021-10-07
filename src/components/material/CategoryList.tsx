@@ -2,7 +2,7 @@ import { VNode } from "vue"
 import { Component, Vue, Watch } from "vue-property-decorator"
 import { mapActions, mapGetters } from "vuex"
 
-import { iMaterialCategory } from "@/interfaces/app"
+import { iMaterialCategory } from "@/interfaces/material"
 import Paginate from "../common/Paginate"
 import MaterialCategoryCard from "./CategoryCard"
 import MaterialLoading from "./MaterialLoading"
@@ -19,7 +19,6 @@ let timer: any = null
     },
     methods: {
         ...mapActions({
-            fetch: 'material/fetchCategory',
             categorySearch: 'material/categorySearch',
             nextPage: 'material/nextCategoryPage',
             prevPage: 'material/prevCategoryPage',
@@ -28,10 +27,8 @@ let timer: any = null
     }
 })
 export default class CategoryList extends Vue {
-    private isLoading: boolean = false
 
     private categoryList!: Array<iMaterialCategory>
-    private fetch!: () => Promise<boolean>
 
     private current!: number
     private lastPage!: number
@@ -41,15 +38,6 @@ export default class CategoryList extends Vue {
 
     private categorySearch!: (searchText: string) => Promise<boolean>
     private searchText: string = ''
-
-    mounted() {
-        this.isLoading = true
-
-        this.fetch()
-            .finally(() => {
-                this.isLoading = false
-            })
-    }
 
     @Watch('searchText')
     searchTextChanged() {
@@ -67,12 +55,13 @@ export default class CategoryList extends Vue {
                 <h3 class="text-xl font-bold capitalize sm:truncate">Categories</h3>
                 <input type="search" placeholder="Search Categories" v-model={this.searchText} class="bg-gray-700 appearance-none relative block w-1/2 px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm" />
             </div>
-            {!this.isLoading ? [<div class="md:space-y-1 pt-3">
+            {/* {!this.isLoading ? [] : <MaterialLoading />} */}
+            <div class="md:space-y-1 pt-3">
                 <div class="md:space-y-1">
                     {this.categoryList.map((category: iMaterialCategory, index: number) => (<MaterialCategoryCard category={category} key={category.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
                 </div>
-            </div>, <Paginate current={this.current} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.goto(pageno)} />] : <MaterialLoading />
-            }
+            </div>
+            <Paginate current={this.current} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.goto(pageno)} />
         </div >
     }
 }

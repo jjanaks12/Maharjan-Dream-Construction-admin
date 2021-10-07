@@ -2,10 +2,9 @@ import { Component, Vue, Watch } from "vue-property-decorator"
 import { VNode } from "vue/types/umd"
 import { mapActions, mapGetters } from "vuex"
 
-import { iMaterial } from "@/interfaces/app"
+import { iMaterial } from "@/interfaces/material"
 import MaterialCard from "./Card"
 import Paginate from "../common/Paginate"
-import MaterialLoading from "./MaterialLoading"
 
 let timer: any = null
 
@@ -19,7 +18,6 @@ let timer: any = null
     },
     methods: {
         ...mapActions({
-            fetch: 'material/fetch',
             nextPage: 'material/nextMaterialPage',
             prevPage: 'material/prevMaterialPage',
             goto: 'material/materialGotoPage',
@@ -28,10 +26,8 @@ let timer: any = null
     }
 })
 export default class MaterialList extends Vue {
-    private isLoading: boolean = false
 
     private materialList!: Array<iMaterial>
-    private fetch!: () => Promise<boolean>
 
     private current!: number
     private lastPage!: number
@@ -41,15 +37,6 @@ export default class MaterialList extends Vue {
 
     private search!: (searchText: string) => Promise<boolean>
     private searchText: string = ''
-
-    mounted() {
-        this.isLoading = true
-
-        this.fetch()
-            .finally(() => {
-                this.isLoading = false
-            })
-    }
 
     @Watch('searchText')
     searchTextChanged() {
@@ -66,12 +53,13 @@ export default class MaterialList extends Vue {
             <div class="flex items-center space-x-2">
                 <input type="search" placeholder="Search Materials" v-model={this.searchText} class="bg-gray-700 appearance-none relative block w-56 px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm ml-auto" />
             </div>
-            {!this.isLoading ? [<div class="md:space-y-1 pt-3">
+            <div class="md:space-y-1 pt-3">
                 <div class="md:space-y-1">
                     {this.materialList.map((material: iMaterial, index: number) => (<MaterialCard material={material} key={material.id} style={{ '--transition-delay': index * 0.3 + 's' }} />))}
                 </div>
-            </div>,
-            <Paginate current={this.current} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.goto(pageno)} />] : <MaterialLoading />}
+            </div>
+            <Paginate current={this.current} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.goto(pageno)} />
+            {/* {!this.isLoading ? [] : <MaterialLoading />} */}
         </div>
     }
 }

@@ -11,6 +11,7 @@ export default class Dropdown extends Vue {
 
     @Prop({ type: Function, default: () => { } }) opener!: () => VNode
     @Prop({ default: false }) value!: boolean
+    @Prop({ default: false }) disabled!: boolean
 
     @Watch('value')
     valueChanged() {
@@ -25,8 +26,11 @@ export default class Dropdown extends Vue {
         }}>
             <a href="#" class="inline-flex items-center" onClick={(event: MouseEvent) => {
                 event.preventDefault()
-                this.isActive = !this.isActive
-                this.$emit('input', this.isActive)
+
+                if (!this.disabled) {
+                    this.isActive = !this.isActive
+                    this.$emit('input', this.isActive)
+                }
             }}>
                 {this.opener()}
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,7 +1,7 @@
 import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import { iMaterial } from '@/interfaces/app'
+import { iMaterial } from '@/interfaces/material'
 import Modal from '@/components/common/Modal'
 import MaterialCreate from '@/components/material/Create'
 
@@ -15,6 +15,10 @@ export default class MaterialCard extends Vue {
         super(prop)
     }
 
+    get canEdit(): boolean {
+        return this.$route.name == 'material'
+    }
+
     render(): VNode {
         return (<div>
             <div class="bg-gray-900 rounded-lg flex justify-between p-3 text-gray-200">
@@ -24,10 +28,12 @@ export default class MaterialCard extends Vue {
                     <span class="block not-italic text-gray-500 text-sm">in stock: {this.material.quantity}</span>
                     {/* <time datetime={this.material.created_at} class="block not-italic text-gray-500 text-sm">Added on {this.material.created_at}</time> */}
                 </div>
-                <div class="pl-3 text-right">
+                <div class="pl-3 text-right flex-grow-0">
                     <div class="action text-sm space-x-3 mb-3">
                         <a href="#" class="text-purple-400 hover:text-gray-400 transition" onClick={this.toggleModal}>view</a>
-                        <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.toggleDelete}>delete</a>
+                        {this.canEdit
+                            ? <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.toggleDelete}>delete</a>
+                            : null}
                     </div>
                     <em class="not-italic text-xl font-medium block leading-none">Rs. {this.material.price}</em>
                     <span class="text-sm text-gray-400 leading-none">{this.material.measurement_unit}</span>

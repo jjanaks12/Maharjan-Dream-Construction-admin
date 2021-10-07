@@ -1,10 +1,11 @@
-import { iMaterialCategory } from '@/interfaces/app'
-import FormComponent from '@/core/FormComponent'
-import SnackBar from '@/components/common/SnackBar'
-
 import { validate } from 'vee-validate'
 import { VNode } from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
+
+import { iMaterialCategory } from '@/interfaces/material'
+import FormComponent from '@/core/FormComponent'
+import SnackBar from '@/components/common/SnackBar'
+
 import TextEditor from '../common/TextEditor'
 
 @Component

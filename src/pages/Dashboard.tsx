@@ -2,14 +2,15 @@ import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
 
 // import pusher from '@/services/pusher'
+import Order from '@/components/order/Index'
 
 @Component
 export default class Dashboard extends Vue {
   mounted() {
-      // pusher.subscribe('home')
-      // pusher.bind('NewMessage', (data: any) => {
-      //     console.log(data)
-      // })
+    // pusher.subscribe('home')
+    // pusher.bind('NewMessage', (data: any) => {
+    //     console.log(data)
+    // })
   }
   /**
    * Template pf the component
@@ -22,6 +23,7 @@ export default class Dashboard extends Vue {
         <header class="mb-10">
           <h2 class="text-3xl font-bold text-gray-500 capitalize sm:truncate">Dashboard</h2>
         </header>
+        <Order />
       </div>
     </div>)
   }

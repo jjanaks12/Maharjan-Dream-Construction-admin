@@ -1,7 +1,7 @@
 import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
-import { iMaterialCategory } from '@/interfaces/app'
+import { iMaterialCategory } from '@/interfaces/material'
 
 @Component
 export default class MaterialCategoryCard extends Vue {

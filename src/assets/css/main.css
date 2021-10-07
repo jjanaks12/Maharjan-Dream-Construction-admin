@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url(~vue2-datepicker/index.css);
 
+@import url(~vue2-datepicker/index.css);
 @import url(components/toggle.css);
 @import url(components/animation.css);
 @import url(components/editor.css);
@@ -13,8 +13,7 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
