@@ -8,6 +8,7 @@
 @import url(components/editor.css);
 @import url(components/calendar.css);
 @import url(components/modal.css);
+@import url(components/scroll.css);
 
 input[type="number"] {
     -moz-appearance: textfield;
@@ -16,4 +17,22 @@ input[type="number"] {
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+#wrapper {
+    @apply h-screen flex flex-col bg-gray-800 text-gray-500 relative overflow-hidden;
+}
+
+#main {
+    height: calc(100% - 92px);
+    @apply flex flex-grow;
+}
+
+#main>* {
+    @apply overflow-y-auto overflow-x-hidden;
+}
+
+#sidebar {
+    width: 280px;
+    @apply bg-gray-700 flex-grow-0 flex-shrink-0;
 }

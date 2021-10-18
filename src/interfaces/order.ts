@@ -1,6 +1,19 @@
-import { iMaterial } from "./material";
-import { iUserDetail } from "./auth";
-import { iDelivery } from "./delivery";
+import { iMaterial } from "./material"
+import { initUserDetail, iUserDetail } from "./auth"
+import { deliveryInit, iDelivery } from "./delivery"
+
+export enum OrderStatus {
+    PENDING = 'pending',
+    PROCESSING = 'processing',
+    CANCELLED = 'cancelled',
+    SHIPPED = 'shipped',
+    COMPLETED = 'completed',
+}
+
+export enum PaymentStatus {
+    UNPAID = 'unpaid',
+    PAID = 'paid',
+}
 
 export interface iOrder {
     id?: string
@@ -18,15 +31,17 @@ export interface iOrder {
     material: Array<iMaterial>
 }
 
-export enum OrderStatus {
-    PENDING = 'pending',
-    PROCESSING = 'processing',
-    CANCELLED = 'cancelled',
-    SHIPPED = 'shipped',
-    COMPLETED = 'completed',
-}
-
-export enum PaymentStatus {
-    UNPAID = 'unpaid',
-    PAID = 'paid',
+export const initOrder = {
+    user: initUserDetail,
+    type: '',
+    price: 0,
+    ordered_at: '',
+    order_status: OrderStatus.PENDING,
+    delivery: deliveryInit,
+    delivery_date: null,
+    delivery_address: '',
+    delivery_charge: 0,
+    total: 0,
+    payment_status: PaymentStatus.UNPAID,
+    material: [],
 }

@@ -1,30 +1,103 @@
 import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators"
 import { AxiosResponse } from "axios"
 
-import { iOrder, OrderStatus, PaymentStatus } from "@/interfaces/order"
+import { initOrder, iOrder, OrderStatus, PaymentStatus } from "@/interfaces/order"
 import axios from "@/services/axios"
+import { iResponse, RequestQuery, responseInit } from "@/interfaces/app"
+
+let params: { params: {} } = {
+    params: {
+        per_page: 10
+    }
+}
 
 @Module
 export default class Order extends VuexModule {
-    private orders: Array<iOrder> = []
+    private orders: iResponse<iOrder> = responseInit
 
     get list(): Array<iOrder> {
-        return this.orders
+        return this.orders.data
+    }
+
+    get totalCount(): number {
+        return this.orders.total
+    }
+
+    get lastPage(): number {
+        return this.orders.last_page
+    }
+
+    get currentPage(): number {
+        return this.orders.current_page
     }
 
     @Mutation
-    SET_LIST(list: Array<iOrder>) {
+    SET_LIST(list: iResponse<iOrder>) {
         this.orders = list
     }
 
     @Action({ commit: 'SET_LIST' })
-    async fetch(): Promise<Array<iOrder> | null> {
-        const { data, status }: AxiosResponse = await axios.get('orders')
+    async fetch(query: RequestQuery): Promise<Array<iOrder> | null> {
+        const { data, status }: AxiosResponse = await axios.get('orders', { ...query })
 
         if (status === 200)
             return data
 
         return null
+    }
+
+    @Action
+    nextPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage < this.lastPage) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentPage + 1
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    prevPage(): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage > 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: this.currentPage - 1
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
+    }
+
+    @Action
+    gotoPage(pageno: number): Promise<boolean> {
+        return new Promise((resolve) => {
+
+            if (this.currentPage >= 1) {
+                params = {
+                    params: {
+                        ...params.params,
+                        page: pageno
+                    }
+                }
+                this.context.dispatch('fetch', params)
+            }
+
+            resolve(true)
+        })
     }
 
     @Action
@@ -44,7 +117,6 @@ export default class Order extends VuexModule {
 
     @Action
     async updatePaymentStatus(formData: { payment_status: PaymentStatus, order_id: string }) {
-        console.log(formData);
 
         const { status }: AxiosResponse = await axios({
             method: 'put',
@@ -56,5 +128,15 @@ export default class Order extends VuexModule {
 
         if (status === 200)
             this.context.dispatch('fetch')
+    }
+
+    @Action
+    async get(id: string): Promise<iOrder> {
+        const { data, status }: AxiosResponse = await axios('orders/' + id)
+
+        if (status === 200)
+            return data
+
+        return initOrder
     }
 }

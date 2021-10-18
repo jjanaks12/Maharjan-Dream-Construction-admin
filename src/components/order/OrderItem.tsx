@@ -121,7 +121,7 @@ export default class OrderItem extends Vue {
                     this.$router.push({ name: 'dashboard' })
                 }
             }}>
-                <OrderDetail order={this.order} />
+                <OrderDetail order-id={this.order.id} />
             </Modal>
         </div>
     }

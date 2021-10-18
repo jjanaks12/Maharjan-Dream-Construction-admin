@@ -14,14 +14,6 @@ export interface RequestQuery {
     params?: RequestParams
 }
 
-export interface iNotification {
-    id: number
-    detail: string
-    created: string
-    isRead?: boolean
-    [propName: string]: any
-}
-
 export interface iImage {
     id: string
     url: string,
@@ -80,4 +72,20 @@ export type newRouteConfig = RouteConfig & {
         type: string
     }
     [propName: string]: any
+}
+
+export interface iResponse<T> {
+    data: Array<T>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
+}
+
+export const responseInit = {
+    data: [],
+    current_page: 0,
+    per_page: 0,
+    last_page: 0,
+    total: 0,
 }

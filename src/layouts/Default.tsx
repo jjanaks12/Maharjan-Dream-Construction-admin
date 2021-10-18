@@ -6,6 +6,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import AppHeader from '@/layouts/partials/Header'
 import { mapGetters } from 'vuex'
 import { iUserDetail } from '@/interfaces/auth'
+import Notification from '@/layouts/partials/Notification'
 
 @Component({
   computed: {
@@ -32,12 +33,15 @@ export default class Default extends Vue {
    * @returns VNode
    */
   render(): VNode {
-    return (<div id="wrapper" class="bg-gray-800 text-gray-500 min-h-screen relative overflow-hidden">
+    return (<div id="wrapper">
       <AppHeader />
       <main id="main">
         <transition name="slide-fade" mode="out-in">
-          <router-view />
+          <router-view class="flex-grow" />
         </transition>
+        <aside id="sidebar">
+          <Notification />
+        </aside>
       </main>
     </div>)
   }

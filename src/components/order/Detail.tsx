@@ -3,15 +3,28 @@ import { VNode } from 'vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 import { iMaterial } from '@/interfaces/material'
-import { iOrder } from '@/interfaces/order'
+import { initOrder, iOrder } from '@/interfaces/order'
 
 import MaterialCard from '../material/Card'
 import User from '@/components/common/User'
+import { mapActions } from 'vuex'
 
-@Component
+@Component({
+    methods: {
+        ...mapActions({
+            getOrder: 'order/get'
+        })
+    }
+})
 export default class OrderDetail extends Vue {
+    private order: iOrder = initOrder
+    private getOrder!: (id: string) => Promise<iOrder>
 
-    @Prop({ required: true }) order!: iOrder
+    @Prop({ required: true }) orderId!: string
+
+    async mounted() {
+        this.order = await this.getOrder(this.orderId)
+    }
 
     constructor(props: any) {
         super(props)
@@ -41,7 +54,7 @@ export default class OrderDetail extends Vue {
                 <strong>Material</strong>
                 {this.order.material.map((material: iMaterial) => <MaterialCard material={material} />)}
             </div>
-            <div class="pt-4 border-t border-dashed border-gray-500">
+            <div class="pt-4 border-t border-dashed border-gray-500 text-right">
                 <dl>
                     <dt>Delivery Charge</dt>
                     <dd><span>{this.order.delivery_charge}</span></dd>

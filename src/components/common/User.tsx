@@ -19,7 +19,7 @@ export default class User extends Vue {
 
     render(): VNode {
         return <div class="flex">
-            <figure class="bg-gray-400 text-gray-900 w-16 h-16 flex flex-grow-0 flex-shrink-0 justify-center items-center mr-2 rounded-full">
+            <figure class="bg-gray-400 text-gray-900 w-16 h-16 flex flex-grow-0 flex-shrink-0 justify-center items-center mr-2 rounded-full overflow-x-hidden">
                 {this.user.photo
                     ? <img src={this.user.photo_url} alt={this.user.name} class="w-full h-full object-cover" />
                     : <span class="font-bold">{this.getInitial}</span>

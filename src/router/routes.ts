@@ -49,14 +49,6 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
-  path: '/notification',
-  name: 'notification',
-  component: () => import('@/pages/Notification'),
-  meta: {
-    layout: 'default',
-    type: 'authorized'
-  }
-}, {
   path: '/realstate/:id?',
   name: 'realstate',
   component: () => import('@/pages/RealState'),

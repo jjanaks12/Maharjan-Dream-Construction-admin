@@ -36,3 +36,10 @@ export interface iUserDetail {
 export interface iErrorMessage {
     [propName: string]: Array<string>
 }
+
+export const initUserDetail: iUserDetail = {
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+}
