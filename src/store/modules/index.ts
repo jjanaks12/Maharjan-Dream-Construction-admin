@@ -8,6 +8,7 @@ const modules: iModule = {}
 
 requireModule.keys().forEach((fileName: string) => {
     if (fileName === './index.ts') return
+    
 
     modules[fileName.replace(/(\.\/|\.ts)/g, '').toLowerCase()] = {
         ...requireModule(fileName).default,

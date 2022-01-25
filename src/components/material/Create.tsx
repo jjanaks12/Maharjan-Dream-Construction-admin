@@ -10,6 +10,7 @@ import FormComponent from '@/core/FormComponent'
 import SnackBar from '@/components/common/SnackBar'
 import MaterialSelect from './MaterialSelect'
 import TextEditor from '../common/TextEditor'
+import VendorSelect from './VendorSelect'
 
 @Component({
     computed: {
@@ -39,7 +40,8 @@ export default class MaterialCreate extends FormComponent {
         quantity: '',
         measurement_unit: '',
         price: '',
-        material_category_id: ''
+        material_category_id: '',
+        vendor_id: ''
     }
 
     @Prop() detail!: iMaterial
@@ -54,7 +56,8 @@ export default class MaterialCreate extends FormComponent {
             quantity: [],
             measurement_unit: [],
             material_category_id: [],
-            price: []
+            price: [],
+            vendor_id: [],
         }
     }
 
@@ -72,7 +75,8 @@ export default class MaterialCreate extends FormComponent {
                 quantity: this.detail.quantity,
                 price: this.detail.price,
                 measurement_unit: this.detail.measurement_unit,
-                material_category_id: this.detail.material_category_id
+                material_category_id: this.detail.material_category_id,
+                vendor_id: this.detail.vendor_id
             }
 
             this.imageList = this.detail.images && this.detail.images.length > 0 ? this.detail.images : []
@@ -111,11 +115,15 @@ export default class MaterialCreate extends FormComponent {
                             <label for="measurement_unit" class="block text-sm font-medium">Measurement Unit</label>
                             <input type="text" name="measurement_unit" id="measurement_unit" class={{ 'bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm': true, 'border-red-700 placeholder-red-700 text-red-700': this.errors.measurement_unit.length > 0 }} v-model={this.formData.measurement_unit} readonly={!this.canEdit} />
                         </div>
-                        <div class="w-1/2 px-2">
+                        <div class="w-1/3 px-2">
                             <label for="price" class="block text-sm font-medium">Price</label>
                             <input type="text" name="price" id="price" class={{ 'bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm': true, 'border-red-700 placeholder-red-700 text-red-700': this.errors.price.length > 0 }} v-model={this.formData.price} readonly={!this.canEdit} />
                         </div>
-                        <div class="w-1/2 px-2">
+                        <div class="w-1/3 px-2">
+                            <label for="material_category_id" class="block text-sm font-medium">Vendor</label>
+                            {this.categoryList.length > 0 ? (<VendorSelect v-model={this.formData.vendor_id} invalid={this.errors.vendor_id.length > 0} />) : null}
+                        </div>
+                        <div class="w-1/3 px-2">
                             <label for="material_category_id" class="block text-sm font-medium">Material Category</label>
                             {this.categoryList.length > 0 ? (<MaterialSelect v-model={this.formData.material_category_id} invalid={this.errors.material_category_id.length > 0} />) : null}
                         </div>

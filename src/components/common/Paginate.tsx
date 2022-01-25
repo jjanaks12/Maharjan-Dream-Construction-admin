@@ -33,7 +33,9 @@ export default class Paginate extends Vue {
             {this.total > 1 ? <ul class="flex items-center space-x-2">
                 {this.current > 1 ? <li><a href="#" onClick={this.prev}>prev</a></li> : null}
                 {this.pages.map((pageno: number) => <li>
-                    {pageno === this.current ? <strong class="w-8 h-8 bg-yellow-600 text-white flex items-center justify-center rounded-full">{pageno}</strong> : <a href="#" class="w-8 h-8 bg-gray-700 flex items-center justify-center rounded-full" onClick={(event: MouseEvent) => { event.preventDefault(); this.goto(pageno) }}>{pageno}</a>}
+                    {pageno === this.current
+                        ? <strong class="w-8 h-8 bg-yellow-600 text-white flex items-center justify-center rounded-full">{pageno}</strong>
+                        : <a href="#" class="w-8 h-8 bg-gray-700 text-white flex items-center justify-center rounded-full" onClick={(event: MouseEvent) => { event.preventDefault(); this.goto(pageno) }}>{pageno}</a>}
                 </li>)}
                 {this.current < this.total ? <li><a href="#" onClick={this.next}>next</a></li> : null}
             </ul> : null}

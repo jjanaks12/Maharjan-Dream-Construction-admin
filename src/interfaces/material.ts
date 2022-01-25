@@ -1,4 +1,5 @@
-import { iImage } from "./app";
+import { iImage } from "./app"
+import { iVendor } from "./vendor"
 
 export interface iMaterialResponse {
     data: Array<iMaterial>
@@ -18,8 +19,10 @@ export interface iMaterial {
     created_at?: string
     price: string
     material_category_id: number | ''
+    vendor_id: number | ''
     images?: Array<iImage>
     [propName: string]: any
+    vendor?: iVendor
 }
 
 export interface iMaterialCategoryResponse {

@@ -21,9 +21,10 @@ export default class MaterialCard extends Vue {
 
     render(): VNode {
         return (<div>
-            <div class="bg-gray-900 rounded-lg flex justify-between p-3 text-gray-200">
+            <div class="bg-gray-800 rounded-lg flex justify-between p-3 text-gray-200">
                 <div class="flex-grow">
                     <strong class="text-2xl font-medium capitalize">{this.material.name}</strong>
+                    {this.material.vendor ? <em class="block not-italic text-gray-600 capitalize">From: {this.material.vendor?.name}</em> : null}
                     <div class="html-content" domPropsInnerHTML={this.material.excerpt} />
                     <span class="block not-italic text-gray-500 text-sm">in stock: {this.material.quantity}</span>
                     {/* <time datetime={this.material.created_at} class="block not-italic text-gray-500 text-sm">Added on {this.material.created_at}</time> */}

@@ -22,6 +22,15 @@ export interface iImage {
     [propName: string]: any
 }
 
+export interface iResponse<T> {
+    data: Array<T>
+    current_page: number
+    per_page: number
+    last_page: number
+    total: number
+    [propName: string]: any
+}
+
 export interface iRealStateResponse {
     data: Array<iRealState>
     current_page: number

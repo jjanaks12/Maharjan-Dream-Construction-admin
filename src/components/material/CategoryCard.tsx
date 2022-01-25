@@ -13,7 +13,7 @@ export default class MaterialCategoryCard extends Vue {
     }
 
     render(): VNode {
-        return (<div class="lg:flex lg:items-center lg:justify-between bg-gray-900 p-2 rounded-lg overflow-hidden relative">
+        return (<div class="lg:flex lg:items-center lg:justify-between bg-gray-800 p-2 rounded-lg overflow-hidden relative">
             <div class="flex-1 min-w-0 text-gray-200">
                 <h4 class="text-lg font-bold leading-7 capitalize sm:truncate">{this.category.title}</h4>
             </div>
