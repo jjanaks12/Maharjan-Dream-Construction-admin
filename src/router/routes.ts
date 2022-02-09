@@ -97,11 +97,35 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
+  path: '/events/:id?',
+  name: 'events',
+  component: () => import('@/pages/Events'),
+  meta: {
+    layout: 'default',
+    type: 'authorized'
+  }
+}, {
+  path: '/pages/:id?',
+  name: 'pages',
+  component: () => import('@/pages/Page'),
+  meta: {
+    layout: 'default',
+    type: 'authorized'
+  }
+}, {
+  path: '/event/:slug',
+  name: 'event.single',
+  component: () => import('@/pages/EventSingle'),
+  meta: {
+    layout: 'StaticPage',
+    type: 'unauthorized'
+  }
+}, {
   path: '/:slug',
   name: 'single_page',
   component: () => import('@/pages/SinglePage'),
   meta: {
-    layout: 'simple',
+    layout: 'StaticPage',
     type: 'unauthorized'
   }
 }, {

@@ -1,13 +1,14 @@
-import Pusher from 'pusher-js'
+import Pusher, { Options } from 'pusher-js'
 
-const pusher = new Pusher('abcdefghij', {
+const option : Options = {
     cluster: 'mt1',
-    // wsHost: 'dev.mdreamcp.com',
-    wsHost: 'api.mdreamcp.com',
-    // wsHost: 'localhost',
+    // wsHost: 'api.mdreamcp.com',
+    wsHost: 'localhost',
     forceTLS: false,
     wsPort: 6001,
-    enableStats: true
-})
+    enableStats: true,
+}
+
+const pusher = new Pusher('abcdefghij', option)
 
 export default pusher

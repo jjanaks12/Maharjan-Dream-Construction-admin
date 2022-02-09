@@ -4,9 +4,9 @@ import Store from '@/store'
 export default (to: Route, from: Route, next: NavigationGuardNext) => {
   const token = Store.getters['root/getToken']
 
-  if (token && token !== 'null') {
-    next({name: 'dashboard'})
-  }
+  // if (token && token !== 'null') {
+  //   next({name: 'dashboard'})
+  // }
 
   next()
 }

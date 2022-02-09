@@ -4,28 +4,10 @@ import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
 
 import AppHeader from '@/layouts/partials/Header'
-import { mapGetters } from 'vuex'
-import { iUserDetail } from '@/interfaces/auth'
 import Notification from '@/layouts/partials/Notification'
 
-@Component({
-  computed: {
-    ...mapGetters({
-      userDetail: 'root/getLoggedinUser'
-    })
-  }
-})
+@Component
 export default class Default extends Vue {
-  private userDetail!: iUserDetail | null
-
-  /**
-   * Mounted hooks
-   */
-  mounted() {
-    if (this.userDetail && Object.keys(this.userDetail).length === 0) {
-      // this.$store.dispatch('root/fetchLogginedUser')
-    }
-  }
 
   /**
    * Template pf the component

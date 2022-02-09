@@ -1,12 +1,17 @@
 import SnackBar from '@/components/common/SnackBar'
-import { iLogin } from '@/interfaces/auth'
+import { iLogin, iUserDetail } from '@/interfaces/auth'
 import FormComponent from '@/core/FormComponent'
 import { validate } from 'vee-validate'
 import { VNode } from 'vue'
 import { Component } from 'vue-property-decorator'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 @Component({
+  computed: {
+    ...mapGetters({
+      loggedinUser: 'root/getLoggedinUser'
+    })
+  },
   methods: {
     ...mapActions({
       login: 'root/login'
@@ -15,11 +20,13 @@ import { mapActions } from 'vuex'
 })
 export default class Login extends FormComponent {
   private login!: (formData: iLogin) => Promise<boolean>
-  private isLoggingIn: boolean = false
+  private loading: boolean = false
   private formData: iLogin = {
     email: '',
     password: '',
   }
+
+  private loggedinUser!: iUserDetail
 
   constructor() {
     super()
@@ -28,6 +35,11 @@ export default class Login extends FormComponent {
       email: [],
       password: []
     }
+  }
+
+  mounted() {
+    if (Object.keys(this.loggedinUser).length > 0)
+      this.$router.push({ name: 'dashboard' })
   }
 
   /**
@@ -61,7 +73,7 @@ export default class Login extends FormComponent {
           </div> */}
 
           <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-            {this.isLoggingIn ? (<svg class="h-5 w-5 mr-2 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            {this.loading ? (<svg class="h-5 w-5 mr-2 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>) : null}
             <span>Sign in</span>
@@ -95,14 +107,14 @@ export default class Login extends FormComponent {
 
     this.$nextTick(() => {
       if (!this.hasError) {
-        this.isLoggingIn = true
+        this.loading = true
 
         this.login(this.formData)
           .then(() => {
             this.$router.push({ name: 'dashboard' })
           })
           .finally(() => {
-            this.isLoggingIn = false
+            this.loading = false
           })
       }
     })

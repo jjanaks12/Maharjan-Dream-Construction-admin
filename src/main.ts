@@ -7,14 +7,7 @@ import store from '@/store'
 import '@/plugin/validation'
 import '@/plugin/directive/click-outside'
 
-// components
-import fallback from '@/layouts/Default'
-import simple from '@/layouts/Simple'
-
 Vue.config.productionTip = false
-
-Vue.component('default', fallback)
-Vue.component('simple', simple)
 
 new Vue({
   router,
