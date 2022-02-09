@@ -38,7 +38,3 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     width: 280px;
     @apply bg-gray-700 flex-grow-0 flex-shrink-0;
 }
-
-.container {
-    @apply max-w-5xl px-5 mx-auto;
-}

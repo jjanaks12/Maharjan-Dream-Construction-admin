@@ -3,6 +3,10 @@
     --tw-text-opacity: 0.6;
 }
 
+.static-page .container {
+    @apply max-w-5xl px-5 mx-auto;
+}
+
 .static-page .logo {
     @apply w-20 md:w-44 mr-5;
 }
