@@ -51,13 +51,7 @@ export default class User extends Vue {
     private toggleType!: (isAdmin: boolean) => void
 
     mounted() {
-        this.isLoading = true
-        this.fetch()
-            .finally(() => {
-
-                this.isLoading = false
-                this.isMaster = this.isAdmin
-            })
+        this.fetchRecord()
     }
 
     @Watch('isMaster')
@@ -87,6 +81,15 @@ export default class User extends Vue {
                 <header class="text-gray-500 flex justify-between items-center mb-10">
                     <h2 class="text-3xl font-bold capitalize sm:truncate">User List</h2>
                     <div class="flex items-center space-x-3 ml-auto">
+                        <a href="#" class="text-yellow-500 text-sm hover:text-gray-500 transition-colors whitespace-nowrap" onClick={(event: MouseEvent) => {
+                            event.preventDefault()
+                            this.fetchRecord()
+                        }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" class={{ "h-4 w-4 inline-block align-middle mr-1": true, "animate-spin": this.isLoading }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            refresh
+                        </a>
                         <input type="search" placeholder="Search text" v-model={this.searchText} class="bg-gray-700 appearance-none relative block w-full px-3 py-2 placeholder-gray-500 outline-none text-gray-400 border border-transparent rounded-md sm:text-sm" />
                         <Toggle class="flex-shrink-0" v-model={this.isMaster}>{this.isMaster ? 'Showing Admins' : 'Showing Users'}</Toggle>
                     </div>
@@ -97,5 +100,15 @@ export default class User extends Vue {
                 <Paginate current={this.currentPage} total={this.lastPage} onNext={() => this.nextPage()} onPrev={() => this.prevPage()} onGoto={(pageno: number) => this.gotoPage(pageno)} />] : null}
             </div>
         </div>)
+    }
+
+    fetchRecord() {
+        this.isLoading = true
+        this.fetch()
+            .finally(() => {
+
+                this.isLoading = false
+                this.isMaster = this.isAdmin
+            })
     }
 }

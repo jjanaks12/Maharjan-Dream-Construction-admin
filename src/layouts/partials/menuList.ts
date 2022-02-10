@@ -1,6 +1,10 @@
 import { iMenu } from '@/interfaces/app';
 
 const menuList: Array<iMenu> = [{
+    name: "Dashboard",
+    path: "dashboard",
+    icon: ''
+}, {
     name: "Users",
     path: "user"
 }, {

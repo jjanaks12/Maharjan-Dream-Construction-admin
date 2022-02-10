@@ -1,9 +1,6 @@
-import { iMenu } from '@/interfaces/app'
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { mapActions } from 'vuex'
-
-import menuList from './menuList'
 
 @Component({
     methods: {
@@ -26,14 +23,7 @@ export default class Header extends Vue {
                         <img src="/img/logo.png" alt="Maharjan Construction" />
                     </router-link>
                 </div>
-                <nav class="hidden md:flex">
-                    <ul class="md:space-x-10 flex">
-                        {menuList.map((menu: iMenu) => (<li>
-                            <router-link class={{ 'text-base font-medium hover:text-yellow-300': true, 'text-gray-500': this.$route.name !== menu.path, 'text-yellow-300': this.$route.name === menu.path }} to={{ name: menu.path }}>{menu.name}</router-link>
-                        </li>))}
-                        <li><a href="#" class="text-base font-medium text-gray-500 hover:text-yellow-300" onClick={this.makeLogout}>Logout</a></li>
-                    </ul>
-                </nav>
+                <a href="#" class="text-base font-medium text-gray-500 hover:text-yellow-300" onClick={this.makeLogout}>Logout</a>
             </div>
         </header>)
     }

@@ -65,10 +65,11 @@ export default class VendorList extends Vue {
                 <button type="button" onClick={(event: MouseEvent) => {
                     event.preventDefault()
                     this.getVendor()
-                }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class={{ "h-4 w-4": true, 'animate-spin': this.isLoading }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                }} class="whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class={{ "h-4 w-4 inline-block align-middle mr-1": true, 'animate-spin': this.isLoading }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
+                    refresh
                 </button>
                 <button type="button" class="min-w-40 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition" onClick={(event: MouseEvent) => {
                     event.preventDefault()

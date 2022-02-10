@@ -5,6 +5,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 import AppHeader from '@/layouts/partials/Header'
 import Notification from '@/layouts/partials/Notification'
+import Sidebar from './partials/Sidebar'
 
 @Component
 export default class Default extends Vue {
@@ -18,6 +19,7 @@ export default class Default extends Vue {
     return (<div id="wrapper">
       <AppHeader />
       <main id="main">
+        <Sidebar />
         <transition name="slide-fade" mode="out-in">
           <router-view class="flex-grow" />
         </transition>
