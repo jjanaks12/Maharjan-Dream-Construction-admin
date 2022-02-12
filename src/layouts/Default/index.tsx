@@ -3,8 +3,8 @@ import '@/assets/css/main.css'
 import { VNode } from 'vue'
 import { Component, Vue } from 'vue-property-decorator'
 
-import AppHeader from '@/layouts/partials/Header'
-import Notification from '@/layouts/partials/Notification'
+import AppHeader from '@/layouts/Default/partials/Header'
+import Notification from '@/layouts/Default/partials/Notification'
 import Sidebar from './partials/Sidebar'
 
 @Component

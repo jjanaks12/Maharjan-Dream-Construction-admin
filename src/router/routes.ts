@@ -97,7 +97,7 @@ const routes: Array<newRouteConfig> = [{
     type: 'authorized'
   }
 }, {
-  path: '/events/:id?',
+  path: '/occasions/:id?',
   name: 'events',
   component: () => import('@/pages/Events'),
   meta: {
@@ -111,6 +111,14 @@ const routes: Array<newRouteConfig> = [{
   meta: {
     layout: 'default',
     type: 'authorized'
+  }
+}, {
+  path: '/events',
+  name: 'event.list',
+  component: () => import('@/pages/Event'),
+  meta: {
+    layout: 'StaticPage',
+    type: 'unauthorized'
   }
 }, {
   path: '/event/:slug',

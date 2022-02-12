@@ -25,17 +25,18 @@ export default class Home extends Vue {
                 </router-link>
             </div>
             <h1 class="text-2xl">Welcome to Maharjan Groups</h1>
-            {
-                this.isLoggedin
-                    ? <div class="pt-3">
-                        <ul class="flex space-x-3">
-                            <li><router-link to={{ name: 'dashboard' }} class="text-white hover:text-yellow-300 transition-all">Dashboard</router-link></li>
-                            <li><router-link to="/privacy_policy" target="_blank" class="text-white hover:text-yellow-300 transition-all">Privacy Policy</router-link></li>
-                            <li><router-link to="/terms_and_conditions" target="_blank" class="text-white hover:text-yellow-300 transition-all">Terms and Conditions</router-link></li>
-                        </ul>
-                    </div>
-                    : <p>Please <router-link to={{ name: 'login' }} class="text-white hover:text-yellow-300 transition-all">login</router-link> in access admin panel</p>
-            }
+            <div class="pt-3">
+                <ul class="flex space-x-3">
+                    {
+                        this.isLoggedin
+                            ? <li><router-link to={{ name: 'dashboard' }} class="text-white hover:text-yellow-300 transition-all">Dashboard</router-link></li>
+                            : <li><router-link to={{ name: 'login' }} class="text-white hover:text-yellow-300 transition-all">login</router-link></li>
+                    }
+                    <li><router-link to={{ name: 'event.list' }} class="text-white hover:text-yellow-300 transition-all">Events</router-link></li>
+                    <li><router-link to="/privacy_policy" target="_blank" class="text-white hover:text-yellow-300 transition-all">Privacy Policy</router-link></li>
+                    <li><router-link to="/terms_and_conditions" target="_blank" class="text-white hover:text-yellow-300 transition-all">Terms and Conditions</router-link></li>
+                </ul>
+            </div>
         </div>)
     }
 }
