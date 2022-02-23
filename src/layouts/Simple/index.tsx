@@ -4,6 +4,8 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class Simple extends Vue {
   render(): VNode {
-    return <router-view />
+    return <transition name="slide-fade" mode="out-in">
+      <router-view />
+    </transition>
   }
 }

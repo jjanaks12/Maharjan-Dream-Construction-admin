@@ -38,6 +38,7 @@ export default class Event extends VuexModule {
 
     @Action({ commit: 'SET_EVENT' })
     async fetch(data?: RequestQuery) {
+        this.context.commit('SET_EVENT', responseInit)
         const parameter = { ...params.params, ...data }
         params = { params: parameter }
 
@@ -144,5 +145,20 @@ export default class Event extends VuexModule {
                 })
                 .catch(() => { })
         })
+    }
+
+    @Action({ commit: 'SET_EVENT' })
+    async fetchEvent(data?: RequestQuery) {
+        const parameter = { ...params.params, ...data }
+        params = { params: parameter }
+
+        const response: AxiosResponse<iResponse<iEvent>> = await axios.get('event_list', { params: parameter })
+        return response.data
+    }
+
+    @Action
+    async get(slug: string) {
+        const { data } = await axios.get(`event_detail/${slug}`)
+        return data as iEvent
     }
 }

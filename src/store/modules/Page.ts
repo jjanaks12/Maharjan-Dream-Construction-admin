@@ -48,6 +48,7 @@ export default class Page extends VuexModule {
 
     @Action({ commit: 'SET_PAGE' })
     async fetch(data?: RequestQuery) {
+        this.context.commit('SET_PAGE', {})
         const parameter = { ...params.params, ...data }
         params = { params: parameter }
 

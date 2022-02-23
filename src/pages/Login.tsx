@@ -79,6 +79,7 @@ export default class Login extends FormComponent {
             <span>Sign in</span>
           </button>
         </form>
+        <router-link to={{ name: 'home' }}>Home</router-link>
       </div>
       {this.hasError ? (<SnackBar message={this.errorMessage} />) : null}
     </div>)

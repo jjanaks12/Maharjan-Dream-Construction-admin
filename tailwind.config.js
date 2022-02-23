@@ -5,6 +5,17 @@ module.exports = {
     extend: {
       transitionProperty: {
         inset: 'left'
+      },
+      backgroundColor : {
+        'regal-blue': '#093154',
+        'regal-blue-dark': '#071D31'
+      },
+      textColor: {
+        'regal-blue': '#093154',
+        'regal-blue-dark': '#071D31'
+      },
+      zIndex: {
+        '-1': '-1'
       }
     },
   },

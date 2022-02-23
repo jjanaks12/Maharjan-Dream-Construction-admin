@@ -28,9 +28,6 @@ const menuList: Array<iMenu> = [{
 }, {
     name: "Pages",
     path: "pages"
-}, {
-    name: "Settings",
-    path: "setting"
 }]
 
 export default menuList
