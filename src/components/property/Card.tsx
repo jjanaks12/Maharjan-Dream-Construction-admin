@@ -11,6 +11,7 @@ import TabItem from '@/components/common/tab/Item'
 import PropertyCreate from '@/components/property/Create'
 import PropertyService from '@/components/property/Service'
 import Appointment from '@/components/dashboard/Appointment'
+import { iUserDetail } from '@/interfaces/auth'
 
 @Component
 export default class PropertyCard extends Vue {
@@ -33,6 +34,12 @@ export default class PropertyCard extends Vue {
         }
     }
 
+    get user(): iUserDetail | null {
+        return this.property.users && this.property.users.length > 0
+            ? this.property.users[0]
+            : null
+    }
+
     mounted() {
         if (this.property.id && this.property.id.toString() === this.$route.params.id)
             this.showModal = true
@@ -45,10 +52,16 @@ export default class PropertyCard extends Vue {
                     <strong class="text-2xl font-medium capitalize block">{this.property.location}</strong>
                     <div class="html-content" domPropsInnerHTML={this.property.excerpt} />
                     <time datetime={this.property.created_at} class="block not-italic text-gray-500 text-sm">Added {formatDate(this.property.created_at)}</time>
+                    {this.user
+                        ? <em>{this.user.name}</em>
+                        : null}
                     {this.property.detail ? <PropertyService service={this.property.detail} /> : null}
                 </div>
                 <div class="pl-3 text-right">
                     <div class="action text-sm space-x-3 mb-3">
+                        {this.property.published
+                            ? <span class="text-green-400">published</span>
+                            : null}
                         <a href="#" class="text-purple-400 hover:text-gray-400 transition" onClick={this.toggleModal}>view</a>
                         <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.toggleDelete}>delete</a>
                     </div>

@@ -31,12 +31,6 @@ export default class CopyLink extends Vue {
     copyLink(event: MouseEvent): void {
         event.preventDefault()
         navigator.clipboard.writeText(location.origin + this.link)
-            .then(() => {
-                console.log('copied')
-            })
-            .catch((error) => {
-                console.log(error)
-            })
         this.isCopied = true
     }
 }

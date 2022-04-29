@@ -1,7 +1,6 @@
 import { iService } from '@/interfaces/app'
 import FormComponent from '@/core/FormComponent'
 
-// import { validate } from 'vee-validate'
 import { VNode } from 'vue'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 
@@ -96,6 +95,6 @@ export default class ServiceForm extends FormComponent {
         }, {})
 
         this.$emit('update', details)
-        this.hasChanged = false
+        // this.hasChanged = false
     }
 }

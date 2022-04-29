@@ -1,3 +1,4 @@
+import { iUserDetail } from '@/interfaces/auth';
 import { RouteConfig } from 'vue-router';
 
 export interface iMenu {
@@ -50,9 +51,11 @@ export interface iRealState {
     excerpt: string
     description: string
     created_at?: string
+    published?: boolean
     images?: Array<iImage>
     detail?: iService
     [propName: string]: any
+    users?:Array<iUserDetail>
 }
 
 export interface iRentResponse {
