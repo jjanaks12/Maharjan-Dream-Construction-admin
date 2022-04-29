@@ -38,7 +38,7 @@ export default class Login extends FormComponent {
   }
 
   mounted() {
-    if (Object.keys(this.loggedinUser).length > 0)
+    if (this.loggedinUser && Object.keys(this.loggedinUser).length > 0)
       this.$router.push({ name: 'dashboard' })
   }
 

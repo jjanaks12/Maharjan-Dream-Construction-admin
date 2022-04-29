@@ -14,7 +14,7 @@ export default class Home extends Vue {
     private loggedinUser!: iUserDetail
 
     get isLoggedin(): boolean {
-        return (Object.keys(this.loggedinUser).length > 0)
+        return this.loggedinUser && (Object.keys(this.loggedinUser).length > 0)
     }
 
     render(): VNode {
