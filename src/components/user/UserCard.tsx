@@ -52,25 +52,24 @@ export default class UserCard extends Vue {
                         </div>
                     </div>
                 </div>
-                {!this.isMaster ? (<div class="mt-5 flex lg:mt-0 lg:ml-4 md:space-x-5">
-                    <a href="#" class="text-purple-400 hover:text-gray-400 transition" onClick={(event: MouseEvent) => {
-                        event.preventDefault()
-                        this.showModal = true
-                        this.$router.replace({
-                            name: this.$route.name as string,
-                            params: {
-                                id: this.user.id as string
-                            }
-                        })
-                    }}>view</a>
-                    {/* <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.toggleDelete}>Deactivate</a>
-                    {this.hasDeleted ? (<button type="button" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-800 hover:bg-red-900" onClick={this.toggleDelete}>
-                        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Delete</span>
-                    </button>) : null} */}
-                </div>) : null}
+                {!this.isMaster
+                    ? <div class="mt-5 flex lg:mt-0 lg:ml-4 md:space-x-5">
+                        <a href="#" class="text-purple-400 hover:text-gray-400 transition" onClick={(event: MouseEvent) => {
+                            event.preventDefault()
+                            this.showModal = true
+                            this.$router.replace({
+                                name: this.$route.name as string,
+                                params: {
+                                    id: this.user.id as string
+                                }
+                            })
+                        }}>view</a>
+                        {!this.hasDeleted
+                            ? <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.toggleDelete}>Deactivate</a>
+                            :
+                            <a href="#" class="text-red-400 hover:text-gray-400 transition" onClick={this.restoreUser}>Restore</a>}
+                    </div>
+                    : null}
             </div>
             {this.isDeleting ? (<div class="flex-grow-0 flex-shrink-0 h-full bg-black bg-opacity-30 w-40 flex flex-col p-4 items-center space-y-2 ml-3 rounded-md">
                 <a href="#" class="text-yellow-400 hover:text-gray-400 transition" onClick={this.deleteUser}>confirm</a>

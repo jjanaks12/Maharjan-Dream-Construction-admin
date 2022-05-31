@@ -13,7 +13,7 @@ let params: RequestQuery = {
 
 @Module
 export default class User extends VuexModule {
-    private isAdmin: boolean = true
+    private isAdmin: boolean = false
     private userList: userResponse = {
         data: [],
         current_page: 0,
@@ -74,7 +74,21 @@ export default class User extends VuexModule {
             axios.delete('users/' + id)
                 .then(() => {
 
-                    this.context.dispatch('fetchUser', false)
+                    this.context.dispatch('fetch', {})
+                    resolve(true)
+                })
+                .catch(() => { })
+        })
+    }
+
+    @Action
+    restore(id: string): Promise<boolean | iErrorMessage> {
+        return new Promise((resolve) => {
+
+            axios.post('users/' + id + '/restore')
+                .then(() => {
+
+                    this.context.dispatch('fetch', {})
                     resolve(true)
                 })
                 .catch(() => { })

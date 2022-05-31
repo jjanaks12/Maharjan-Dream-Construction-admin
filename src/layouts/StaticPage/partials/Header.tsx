@@ -37,6 +37,7 @@ export default class AppHeader extends Vue {
                             <li><router-link to={{ name: 'event.list' }}>Events</router-link></li>
                             <li><router-link to="/privacy_policy">Privacy Policy</router-link></li>
                             <li><router-link to="/terms_and_conditions">Terms and Conditions</router-link></li>
+                            <li><router-link to="/support" class="text-white hover:text-yellow-300 transition-all">Support</router-link></li>
                         </ul>
                     </nav>
                 </div>

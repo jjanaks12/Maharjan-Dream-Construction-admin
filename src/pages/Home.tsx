@@ -29,6 +29,8 @@ export default class Home extends Vue {
                 <ul class="flex space-x-3">
                     <li><router-link to={{ name: 'event.list' }} class="text-white hover:text-yellow-300 transition-all">Events</router-link></li>
                     <li><router-link to="/privacy_policy" class="text-white hover:text-yellow-300 transition-all">Privacy Policy</router-link></li>
+                    <li><router-link to="/support" class="text-white hover:text-yellow-300 transition-all">Support</router-link></li>
+                    <li><router-link to="/copyright" class="text-white hover:text-yellow-300 transition-all">Copyright</router-link></li>
                     <li><router-link to="/terms_and_conditions" class="text-white hover:text-yellow-300 transition-all">Terms and Conditions</router-link></li>
                     {
                         this.isLoggedin
