@@ -28,6 +28,12 @@ export default class Root extends VuexModule {
     }
 
     @Action
+    async getStats() {
+        const { data } = await axios.get('/stats')
+        return data
+    }
+
+    @Action
     login(formData: iLogin): Promise<void | boolean> {
         return new Promise((resolve) => {
 

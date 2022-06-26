@@ -31,6 +31,13 @@ export interface iOrder {
     material: Array<iMaterial>
 }
 
+export interface iOrderForm {
+    startDate?: string,
+    endDate?: string | null,
+    status?: OrderStatus,
+    payment_status?: PaymentStatus
+}
+
 export const initOrder = {
     user: initUserDetail,
     type: '',

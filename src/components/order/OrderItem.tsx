@@ -105,7 +105,7 @@ export default class OrderItem extends Vue {
                     event.preventDefault()
                     this.showDetail = true
                     this.$router.push({
-                        name: 'dashboard',
+                        name: 'orders',
                         query: {
                             order: this.order.id
                         }
@@ -118,7 +118,7 @@ export default class OrderItem extends Vue {
             <Modal v-model={this.showDetail} onInput={(status: boolean) => {
                 if (!status) {
                     this.showDetail = false
-                    this.$router.push({ name: 'dashboard' })
+                    this.$router.push({ name: 'orders' })
                 }
             }}>
                 <OrderDetail order-id={this.order.id} />

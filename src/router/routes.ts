@@ -42,7 +42,7 @@ const routes: Array<newRouteConfig> = [{
   }
 }, {
   path: '/user/:id?',
-  name: 'user',
+  name: 'users',
   component: () => import('@/pages/User'),
   meta: {
     layout: 'default',
@@ -108,6 +108,14 @@ const routes: Array<newRouteConfig> = [{
   path: '/pages/:id?',
   name: 'pages',
   component: () => import('@/pages/Page'),
+  meta: {
+    layout: 'default',
+    type: 'authorized'
+  }
+}, {
+  path: '/order/:id?',
+  name: 'orders',
+  component: () => import('@/pages/Order'),
   meta: {
     layout: 'default',
     type: 'authorized'

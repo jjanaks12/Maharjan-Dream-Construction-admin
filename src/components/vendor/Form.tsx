@@ -105,15 +105,17 @@ export default class VendorForm extends FormComponent {
                 this.errors['address'] = result.errors
             })
 
-        await validate(this.formData.pan_no, 'required', { name: 'pan_no' })
-            .then(result => {
-                this.errors['pan_no'] = result.errors
-            })
-            
-        await validate(this.formData.vat_no, 'required', { name: 'vat_no' })
-            .then(result => {
-                this.errors['vat_no'] = result.errors
-            })
+        if (!this.formData.vat_no)
+            await validate(this.formData.pan_no, 'required', { name: 'pan_no' })
+                .then(result => {
+                    this.errors['pan_no'] = result.errors
+                })
+
+        if (!this.formData.pan_no)
+            await validate(this.formData.vat_no, 'required', { name: 'vat_no' })
+                .then(result => {
+                    this.errors['vat_no'] = result.errors
+                })
 
         this.$nextTick(() => {
             if (!this.hasError) {

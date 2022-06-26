@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios"
 
 import { initOrder, iOrder, OrderStatus, PaymentStatus } from "@/interfaces/order"
 import axios from "@/services/axios"
-import { iResponse, RequestQuery, responseInit } from "@/interfaces/app"
+import { RequestQuery } from "@/interfaces/app"
 
 let params: { params: {} } = {
     params: {
@@ -13,91 +13,30 @@ let params: { params: {} } = {
 
 @Module
 export default class Order extends VuexModule {
-    private orders: iResponse<iOrder> = responseInit
+    private orders: Array<iOrder> = []
 
     get list(): Array<iOrder> {
-        return this.orders.data
+        return this.orders
     }
 
     get totalCount(): number {
-        return this.orders.total
-    }
-
-    get lastPage(): number {
-        return this.orders.last_page
-    }
-
-    get currentPage(): number {
-        return this.orders.current_page
+        return this.orders.length
     }
 
     @Mutation
-    SET_LIST(list: iResponse<iOrder>) {
+    SET_LIST(list: Array<iOrder>) {
         this.orders = list
     }
 
     @Action({ commit: 'SET_LIST' })
     async fetch(query: RequestQuery): Promise<Array<iOrder> | null> {
+        params = { params: query }
         const { data, status }: AxiosResponse = await axios.get('orders', { ...query })
 
         if (status === 200)
             return data
 
         return null
-    }
-
-    @Action
-    nextPage(): Promise<boolean> {
-        return new Promise((resolve) => {
-
-            if (this.currentPage < this.lastPage) {
-                params = {
-                    params: {
-                        ...params.params,
-                        page: this.currentPage + 1
-                    }
-                }
-                this.context.dispatch('fetch', params)
-            }
-
-            resolve(true)
-        })
-    }
-
-    @Action
-    prevPage(): Promise<boolean> {
-        return new Promise((resolve) => {
-
-            if (this.currentPage > 1) {
-                params = {
-                    params: {
-                        ...params.params,
-                        page: this.currentPage - 1
-                    }
-                }
-                this.context.dispatch('fetch', params)
-            }
-
-            resolve(true)
-        })
-    }
-
-    @Action
-    gotoPage(pageno: number): Promise<boolean> {
-        return new Promise((resolve) => {
-
-            if (this.currentPage >= 1) {
-                params = {
-                    params: {
-                        ...params.params,
-                        page: pageno
-                    }
-                }
-                this.context.dispatch('fetch', params)
-            }
-
-            resolve(true)
-        })
     }
 
     @Action

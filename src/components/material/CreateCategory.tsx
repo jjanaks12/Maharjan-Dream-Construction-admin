@@ -27,6 +27,16 @@ export default class MaterialCategoryCreate extends FormComponent {
         }
     }
 
+    mounted() {
+        if (this.detail) {
+            this.formData = {
+                id: this.detail.id,
+                title: this.detail.title,
+                description: this.detail.description,
+            }
+        }
+    }
+
     /**
      * Page rendering
      * @returns VNode

@@ -6,7 +6,7 @@ const menuList: Array<iMenu> = [{
     icon: ''
 }, {
     name: "Users",
-    path: "user"
+    path: "users"
 }, {
     name: "Real State",
     path: "realstate"
@@ -28,6 +28,9 @@ const menuList: Array<iMenu> = [{
 }, {
     name: "Pages",
     path: "pages"
+}, {
+    name: "Orders",
+    path: "orders"
 }]
 
 export default menuList
