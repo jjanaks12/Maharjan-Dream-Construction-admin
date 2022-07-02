@@ -16,7 +16,8 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
@@ -37,4 +38,16 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 #sidebar {
     width: 280px;
     @apply bg-gray-700 flex-grow-0 flex-shrink-0;
+}
+
+.slide-in-enter-active,
+.slide-in-leave-active {
+    max-height: 400px;
+    transition: max-height 0.5s ease;
+    will-change: max-height;
+}
+
+.slide-in-enter-from,
+.slide-in-leave-to {
+    max-height: 0;
 }

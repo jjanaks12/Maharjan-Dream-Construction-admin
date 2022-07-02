@@ -31,7 +31,7 @@ export default class OrderItem extends Vue {
     }
 
     mounted() {
-        if (this.$route.query.order === this.order.id)
+        if (this.$route.query.id === this.order.id)
             this.showDetail = true
     }
 
@@ -107,7 +107,7 @@ export default class OrderItem extends Vue {
                     this.$router.push({
                         name: 'orders',
                         query: {
-                            order: this.order.id
+                            id: this.order.id
                         }
                     })
                 }}>view</a>

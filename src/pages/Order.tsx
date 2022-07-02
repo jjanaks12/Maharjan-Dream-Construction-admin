@@ -10,6 +10,7 @@ import { exportCSV } from "@/plugin/filter"
 
 import OrderItem from "@/components/order/OrderItem"
 import OrderFilter from "@/components/order/OrderFilter"
+import OrderSearch from "@/components/order/OrderSearch"
 
 @Component({
     computed: {
@@ -26,6 +27,8 @@ import OrderFilter from "@/components/order/OrderFilter"
 export default class Order extends Vue {
     private isLoading: boolean = false
     private showOrderFilter: boolean = false
+    private showSearchForm: boolean = false
+
     private filter: iOrderForm = {
         startDate: moment().startOf('months').format('YYYY-MM-DD')
     }
@@ -55,13 +58,20 @@ export default class Order extends Vue {
                 <header class="mb-10">
                     <h2 class="text-3xl font-bold text-gray-500 capitalize sm:truncate">Order</h2>
                     <div class="flex items-center space-x-3 justify-end">
-                        {this.refreshBTN()}
+                        {this.searchBTN()}
                         <span>&bull;</span>
                         {this.filterBTN()}
                         <span>&bull;</span>
+                        {this.refreshBTN()}
+                        <span>&bull;</span>
                         {this.downloadBTN()}
                     </div>
-                    <OrderFilter v-model={this.filter} onClose={() => { this.showOrderFilter = false }} />
+                    <transition name="slide-in" mode="out-in">
+                        {this.showSearchForm ? <OrderSearch /> : null}
+                    </transition>
+                    <transition name="slide-in" mode="out-in">
+                        {this.showOrderFilter ? <OrderFilter v-model={this.filter} onClose={() => { this.showOrderFilter = false }} /> : null}
+                    </transition>
                 </header>
                 {this.list.length > 0
                     ? this.list.map((order: iOrder, index: number) => <OrderItem class={{
@@ -111,10 +121,10 @@ export default class Order extends Vue {
                 total: order.total
             })), 'Order records from ' + Object.values(this.filter).join('-'))
         }}>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            download
+            download CSV
         </a>
     }
 
@@ -122,12 +132,27 @@ export default class Order extends Vue {
         return <a href="#" class="text-purple-500 text-sm hover:text-gray-500 transition-colors" onClick={(event: MouseEvent) => {
             event.preventDefault()
 
-            this.showOrderFilter = true
+            this.showOrderFilter = !this.showOrderFilter
+            this.showSearchForm = false
         }}>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
             filter
+        </a>
+    }
+
+    searchBTN(): VNode {
+        return <a href="#" class="text-indigo-500 text-sm hover:text-gray-500 transition-colors" onClick={(event: MouseEvent) => {
+            event.preventDefault()
+
+            this.showSearchForm = !this.showSearchForm
+            this.showOrderFilter = false
+        }}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Search
         </a>
     }
 }

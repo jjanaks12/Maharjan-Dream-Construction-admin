@@ -52,3 +52,7 @@ export const initOrder = {
     payment_status: PaymentStatus.UNPAID,
     material: [],
 }
+
+export interface iOrderSearch {
+    id: string | number
+}
